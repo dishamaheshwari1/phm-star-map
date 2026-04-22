@@ -319,10 +319,11 @@ export function StarMapScene({
       <DreiStars
         radius={100}
         depth={50}
-        count={7000}
-        factor={2}
-        saturation={0.7}
+        count={4000}
+        factor={6}
+        saturation={1.0}
         fade={true}
+        speed={1.5}
       />
 
       <OrbitControls
