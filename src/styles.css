@@ -48,13 +48,15 @@
   font-weight: normal;
   letter-spacing: 0.06em;
   padding: 0.75rem 1rem;
-  position: relative;
-  z-index: 50;
+  position: absolute;
+  z-index: 100;
+  max-width: 360px;
+  width: max-content;
 }
 
 .map-btn {
   position: relative;
-  z-index: 50;
+  z-index: 100;
   background-color: #000000;
   border: 3px solid var(--map-border);
   border-radius: 0.75rem;
