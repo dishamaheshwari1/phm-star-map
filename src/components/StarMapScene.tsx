@@ -60,10 +60,8 @@ function StarLabel({ name }: { name: string }) {
   return (
     <Html
       center
-      transform
       sprite
-      scale={0.6}
-      position={[0, 0.45, 0]}
+      zIndexRange={[10, 0]}
       style={{
         pointerEvents: "none",
         color: "#ffffff",
@@ -73,6 +71,9 @@ function StarLabel({ name }: { name: string }) {
         letterSpacing: "0.08em",
         whiteSpace: "nowrap",
         textShadow: "0 0 4px rgba(0,0,0,0.9)",
+        // Sit to the top-right of the star sphere so text never overlaps it
+        transform: "translate(20px, -20px)",
+        transformOrigin: "left bottom",
       }}
     >
       {name.toUpperCase()}
