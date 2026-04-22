@@ -244,14 +244,24 @@ function ZoomBridge({
     zoomRef.current = (dir: 1 | -1) => {
       const controls = controlsRef.current;
       if (!controls) return;
-      // Move camera along its current forward vector so we zoom into wherever the user has panned
-      const forward = new THREE.Vector3();
-      camera.getWorldDirection(forward).normalize();
-      const distToTarget = camera.position.distanceTo(controls.target);
-      const step = distToTarget * (dir === 1 ? 0.2 : -0.25);
-      camera.position.addScaledVector(forward, step);
-      // Keep the orbit target moving with us so further pans/rotates feel natural
-      controls.target.addScaledVector(forward, step);
+      // Move camera along the vector from camera -> orbit target.
+      // dir = 1 (zoom in): step toward the target (positive along that vector).
+      // dir = -1 (zoom out): step away from the target.
+      // Because the target is wherever the user has panned to, this naturally
+      // focuses zoom on the panned area rather than the world origin.
+      const toTarget = new THREE.Vector3()
+        .subVectors(controls.target, camera.position);
+      const distToTarget = toTarget.length();
+      if (distToTarget < 1e-4) return;
+      toTarget.normalize();
+      const ZOOM_FRACTION = 0.25;
+      const minDist = 0.5;
+      const maxDist = 200;
+      let step = distToTarget * ZOOM_FRACTION * (dir === 1 ? 1 : -1);
+      const nextDist = distToTarget - step;
+      if (nextDist < minDist) step = distToTarget - minDist;
+      if (nextDist > maxDist) step = distToTarget - maxDist;
+      camera.position.addScaledVector(toTarget, step);
       controls.update();
     };
     return () => {
