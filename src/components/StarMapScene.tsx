@@ -285,20 +285,21 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
       <OrbitControls
         ref={controlsRef as never}
         enablePan={true}
-        enableRotate={false}
+        enableRotate={true}
         enableZoom={true}
         zoomSpeed={0.8}
         panSpeed={1.0}
+        rotateSpeed={0.7}
         screenSpacePanning={true}
-        // Left-click drag pans (instead of rotating). Middle/right also pan.
+        // Standard mapping: left = rotate, right = pan, middle = zoom.
         mouseButtons={{
-          LEFT: THREE.MOUSE.PAN,
+          LEFT: THREE.MOUSE.ROTATE,
           MIDDLE: THREE.MOUSE.DOLLY,
           RIGHT: THREE.MOUSE.PAN,
         }}
-        // One-finger drag pans, two-finger pinch zooms (DOLLY_PAN gives pinch-to-zoom).
+        // One-finger rotates, two-finger pinch pans + zooms.
         touches={{
-          ONE: THREE.TOUCH.PAN,
+          ONE: THREE.TOUCH.ROTATE,
           TWO: THREE.TOUCH.DOLLY_PAN,
         }}
       />
