@@ -30,16 +30,16 @@ type Props = {
 
 const ALWAYS_LABELED = new Set([
   "Sol",
+  "Earth",
   "Tau Ceti",
   "40 Eridani A",
   "Hail Mary",
 ]);
 
-// Solar system planets — render Sol but skip planets entirely
+// Solar system planets — render Sol + Earth but skip the rest
 const PLANET_NAMES = new Set([
   "Mercury",
   "Venus",
-  "Earth",
   "Mars",
   "Jupiter",
   "Saturn",
