@@ -9,7 +9,9 @@ type Props = {
   showLabels: boolean;
   onShowLabelsChange: (v: boolean) => void;
   shipPos: [number, number, number];
-  distanceFromSol: number;
+  distanceFromEarth: number;
+  nearestDistance: number;
+  systemName: string;
   onZoomIn: () => void;
   onZoomOut: () => void;
 };
@@ -20,7 +22,9 @@ export function StarMapUI({
   showLabels,
   onShowLabelsChange,
   shipPos,
-  distanceFromSol,
+  distanceFromEarth,
+  nearestDistance,
+  systemName,
   onZoomIn,
   onZoomOut,
 }: Props) {
@@ -70,11 +74,17 @@ export function StarMapUI({
         <div className="space-y-1.5 text-[11px]">
           <div className="font-display">
             <span className="text-white/50">SYSTEM:</span>{" "}
-            <span className="text-white">SOL</span>
+            <span className="text-white">
+              {systemName ? systemName.toUpperCase() : ""}
+            </span>
           </div>
           <div className="font-display">
             <span className="text-white/50">DISTANCE TO NEAREST:</span>{" "}
-            <span className="text-white">--</span>
+            <span className="text-white">
+              {isFinite(nearestDistance)
+                ? `${nearestDistance.toFixed(2)} LY`
+                : "--"}
+            </span>
           </div>
           <div className="font-display">
             <span className="text-white/50">SHIP:</span>{" "}
@@ -84,7 +94,7 @@ export function StarMapUI({
           </div>
           <div className="font-display">
             <span className="text-white/50">DISTANCE FROM EARTH:</span>{" "}
-            <span className="text-white">{distanceFromSol.toFixed(2)} LY</span>
+            <span className="text-white">{distanceFromEarth.toFixed(2)} LY</span>
           </div>
         </div>
       </div>
