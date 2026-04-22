@@ -236,7 +236,7 @@ function ZoomBridge({
       if (distToTarget < 1e-4) return;
       toTarget.normalize();
       const ZOOM_FRACTION = 0.25;
-      const minDist = 0.5;
+      const minDist = 0.01;
       const maxDist = 200;
       let step = distToTarget * ZOOM_FRACTION * (dir === 1 ? 1 : -1);
       const nextDist = distToTarget - step;
