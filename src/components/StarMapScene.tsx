@@ -1,10 +1,7 @@
 import { useMemo, useRef, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html, Line } from "@react-three/drei";
-type OrbitControlsImpl = {
-  target: THREE.Vector3;
-  update: () => void;
-};
+import type { OrbitControls as OrbitControlsImpl } from "three/examples/jsm/controls/OrbitControls.js";
 import * as THREE from "three";
 import starData from "@/data/stellarSystems20ly.json";
 
