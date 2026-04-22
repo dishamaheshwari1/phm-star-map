@@ -41,7 +41,9 @@ export function StarMapUI({
         className="pointer-events-auto absolute left-6 top-6 map-widget"
         style={{ padding: "0.5rem 0.85rem" }}
       >
-        <div className="font-display-bold text-2xl leading-none">LOCAL STELLAR AREA</div>
+        <div className="font-display-bold whitespace-nowrap text-base leading-none tracking-[0.18em]">
+          LOCAL STELLAR AREA
+        </div>
       </div>
 
       {/* Top Right — Zoom controls */}
