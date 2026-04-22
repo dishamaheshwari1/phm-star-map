@@ -3,10 +3,24 @@ import { Plus, Minus } from "lucide-react";
 
 const SPEED_STOPS = [0.5, 1, 1.5, 2, 3, 4, 5];
 
-export function StarMapUI() {
-  const [progress, setProgress] = useState(0);
+type Props = {
+  progress: number;
+  onProgressChange: (v: number) => void;
+  showLabels: boolean;
+  onShowLabelsChange: (v: boolean) => void;
+  shipPos: [number, number, number];
+  distanceFromSol: number;
+};
+
+export function StarMapUI({
+  progress,
+  onProgressChange,
+  showLabels,
+  onShowLabelsChange,
+  shipPos,
+  distanceFromSol,
+}: Props) {
   const [speedIndex, setSpeedIndex] = useState(1); // 1x default
-  const [showLabels, setShowLabels] = useState(true);
 
   const speed = SPEED_STOPS[speedIndex];
 
@@ -14,23 +28,28 @@ export function StarMapUI() {
     "--progress": `${progress}%`,
   } as CSSProperties;
 
+  const [sx, sy, sz] = shipPos;
+
   return (
     <>
       {/* Top Left — Title */}
-      <div className="pointer-events-auto absolute left-6 top-6 map-widget" style={{ padding: "0.5rem 0.85rem" }}>
+      <div
+        className="pointer-events-auto absolute left-6 top-6 map-widget"
+        style={{ padding: "0.5rem 0.85rem" }}
+      >
         <div className="font-display-bold text-2xl leading-none">LOCAL STELLAR AREA</div>
       </div>
 
       {/* Top Right — Zoom controls */}
       <div className="pointer-events-auto absolute right-6 top-6 flex gap-3">
         <button
-          className="map-btn flex h-11 w-11 items-center justify-center rounded-lg"
+          className="map-btn flex h-11 w-11 items-center justify-center"
           aria-label="Zoom in"
         >
           <Plus size={18} strokeWidth={2.5} />
         </button>
         <button
-          className="map-btn flex h-11 w-11 items-center justify-center rounded-lg"
+          className="map-btn flex h-11 w-11 items-center justify-center"
           aria-label="Zoom out"
         >
           <Minus size={18} strokeWidth={2.5} />
@@ -39,9 +58,7 @@ export function StarMapUI() {
 
       {/* Bottom Left — Telemetry */}
       <div className="pointer-events-auto absolute bottom-6 left-6 map-widget">
-        <div className="font-display-bold mb-3 text-xs text-white/70">
-          TELEMETRY
-        </div>
+        <div className="font-display-bold mb-3 text-xs text-white/70">TELEMETRY</div>
         <div className="space-y-1.5 text-[11px]">
           <div className="font-display">
             <span className="text-white/50">SYSTEM:</span>{" "}
@@ -53,20 +70,20 @@ export function StarMapUI() {
           </div>
           <div className="font-display">
             <span className="text-white/50">SHIP:</span>{" "}
-            <span className="text-white">X 0.00, Y 0.00, Z 0.00</span>
+            <span className="text-white">
+              X {sx.toFixed(2)}, Y {sy.toFixed(2)}, Z {sz.toFixed(2)}
+            </span>
           </div>
           <div className="font-display">
             <span className="text-white/50">DISTANCE FROM EARTH:</span>{" "}
-            <span className="text-white">0.00 LY</span>
+            <span className="text-white">{distanceFromSol.toFixed(2)} LY</span>
           </div>
         </div>
       </div>
 
       {/* Bottom Right — Controls */}
       <div className="pointer-events-auto absolute bottom-6 right-6 map-widget">
-        <div className="font-display-bold mb-3 text-xs text-white/70">
-          CONTROLS
-        </div>
+        <div className="font-display-bold mb-3 text-xs text-white/70">CONTROLS</div>
 
         {/* Progress */}
         <div className="mb-5 min-w-[280px]">
@@ -79,7 +96,7 @@ export function StarMapUI() {
             min={0}
             max={100}
             value={progress}
-            onChange={(e) => setProgress(Number(e.target.value))}
+            onChange={(e) => onProgressChange(Number(e.target.value))}
             className="map-slider-progress"
             style={progressStyle}
           />
@@ -112,7 +129,7 @@ export function StarMapUI() {
           <input
             type="checkbox"
             checked={showLabels}
-            onChange={(e) => setShowLabels(e.target.checked)}
+            onChange={(e) => onShowLabelsChange(e.target.checked)}
             className="map-checkbox"
           />
           <span>SHOW LABELS</span>
