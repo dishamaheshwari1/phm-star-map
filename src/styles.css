@@ -5,16 +5,16 @@
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
-  font-family: "Microgramma";
-  src: url("/fonts/Microgramma_D_Extended_Medium.otf") format("opentype");
-  font-weight: 400 500;
+  font-family: 'Microgramma';
+  src: url('/fonts/Microgramma_D_Extended_Bold.otf') format('opentype');
+  font-weight: bold;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Microgramma";
-  src: url("/fonts/Microgramma_D_Extended_Bold.otf") format("opentype");
-  font-weight: 600 900;
+  font-family: 'Microgramma';
+  src: url('/fonts/Microgramma_D_Extended_Medium.otf') format('opentype');
+  font-weight: normal;
   font-display: swap;
 }
 
