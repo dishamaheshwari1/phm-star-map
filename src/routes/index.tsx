@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import { StarMapScene } from "@/components/StarMapScene";
 import { StarMapUI } from "@/components/StarMapUI";
@@ -14,16 +14,18 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-// Path waypoints: Sol -> Tau Ceti -> 40 Eridani A
+// Path waypoints: Earth -> Tau Ceti -> pivot -> 40 Eridani A
 const PATH_POINTS: [number, number, number][] = [
-  [0, 0, 0],
+  [0.2, 0.2, 0],
   [10.29, 5.02, -3.27],
+  [5.0, 2.5, -1.6],
   [7.14, 14.53, -2.17],
 ];
 
 function Index() {
-  const [progress, setProgress] = useState(0); // 0 - 100
+  const [progress, setProgress] = useState(0);
   const [showLabels, setShowLabels] = useState(true);
+  const zoomRef = useRef<((dir: 1 | -1) => void) | null>(null);
 
   const curve = useMemo(
     () =>
@@ -42,9 +44,14 @@ function Index() {
   }, [curve, progress]);
 
   const shipCoords: [number, number, number] = [shipPos.x, shipPos.y, shipPos.z];
-  const distanceFromSol = Math.sqrt(
-    shipPos.x * shipPos.x + shipPos.y * shipPos.y + shipPos.z * shipPos.z,
-  );
+  // Distance from Earth (0.2, 0.2, 0)
+  const dx = shipPos.x - 0.2;
+  const dy = shipPos.y - 0.2;
+  const dz = shipPos.z;
+  const distanceFromSol = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+  const onZoomIn = useCallback(() => zoomRef.current?.(1), []);
+  const onZoomOut = useCallback(() => zoomRef.current?.(-1), []);
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-black">
@@ -54,6 +61,7 @@ function Index() {
           progress={progress}
           shipPos={shipCoords}
           showLabels={showLabels}
+          zoomRef={zoomRef}
         />
       </div>
       <div className="pointer-events-none absolute inset-0">
@@ -64,6 +72,8 @@ function Index() {
           onShowLabelsChange={setShowLabels}
           shipPos={shipCoords}
           distanceFromSol={distanceFromSol}
+          onZoomIn={onZoomIn}
+          onZoomOut={onZoomOut}
         />
       </div>
     </div>
