@@ -49,7 +49,16 @@ function radiusFromMagnitude(mag: number): number {
   return 0.55 - t * 0.43;
 }
 
-function StarLabel({ name }: { name: string }) {
+function StarLabel({
+  name,
+  quadrant = "tr",
+}: {
+  name: string;
+  quadrant?: "tr" | "br";
+}) {
+  const transform =
+    quadrant === "br" ? "translate(12px, 12px)" : "translate(12px, -12px)";
+  const transformOrigin = quadrant === "br" ? "left top" : "left bottom";
   return (
     <Html
       center
@@ -64,9 +73,8 @@ function StarLabel({ name }: { name: string }) {
         letterSpacing: "0.08em",
         whiteSpace: "nowrap",
         textShadow: "0 0 4px rgba(0,0,0,0.9)",
-        // Sit to the top-right of the star sphere so text never overlaps it
-        transform: "translate(20px, -20px)",
-        transformOrigin: "left bottom",
+        transform,
+        transformOrigin,
       }}
     >
       {name.toUpperCase()}
@@ -77,30 +85,36 @@ function StarLabel({ name }: { name: string }) {
 function StarObj({
   star,
   showLabels,
+  index,
 }: {
   star: Star;
   showLabels: boolean;
+  index: number;
 }) {
-  const showAlways = ALWAYS_LABELED.has(star.name);
   const starPos = useMemo(
     () => new THREE.Vector3(star.x, star.y, star.z),
     [star.x, star.y, star.z],
   );
 
   const r = radiusFromMagnitude(star.magnitude);
+  const quadrant: "tr" | "br" = index % 2 === 0 ? "tr" : "br";
+  const isBright = star.magnitude < BRIGHT_MAGNITUDE;
 
   return (
     <group position={[star.x, star.y, star.z]}>
-      {/* Crisp solid sphere — saturated color, no halo */}
       <mesh>
         <sphereGeometry args={[r, 32, 32]} />
         <meshBasicMaterial color={star.color} toneMapped={false} />
       </mesh>
       {showLabels &&
-        (showAlways ? (
-          <StarLabel name={star.name} />
+        (isBright ? (
+          <StarLabel name={star.name} quadrant={quadrant} />
         ) : (
-          <ProximityLabel name={star.name} starPos={starPos} />
+          <ProximityLabel
+            name={star.name}
+            starPos={starPos}
+            quadrant={quadrant}
+          />
         ))}
     </group>
   );
@@ -109,9 +123,11 @@ function StarObj({
 function ProximityLabel({
   name,
   starPos,
+  quadrant,
 }: {
   name: string;
   starPos: THREE.Vector3;
+  quadrant: "tr" | "br";
 }) {
   const [visible, setVisible] = useState(false);
   const tmp = useMemo(() => new THREE.Vector3(), []);
@@ -121,7 +137,7 @@ function ProximityLabel({
     setVisible((prev) => (prev !== next ? next : prev));
   });
   if (!visible) return null;
-  return <StarLabel name={name} />;
+  return <StarLabel name={name} quadrant={quadrant} />;
 }
 
 function Stars({ showLabels }: { showLabels: boolean }) {
@@ -131,8 +147,8 @@ function Stars({ showLabels }: { showLabels: boolean }) {
   );
   return (
     <>
-      {stars.map((s) => (
-        <StarObj key={s.name} star={s} showLabels={showLabels} />
+      {stars.map((s, i) => (
+        <StarObj key={s.name} star={s} showLabels={showLabels} index={i} />
       ))}
     </>
   );
