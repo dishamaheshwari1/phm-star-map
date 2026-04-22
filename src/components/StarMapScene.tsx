@@ -1,7 +1,10 @@
 import { useMemo, useRef, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html, Line } from "@react-three/drei";
-import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+type OrbitControlsImpl = {
+  target: THREE.Vector3;
+  update: () => void;
+};
 import * as THREE from "three";
 import starData from "@/data/stellarSystems20ly.json";
 
@@ -277,7 +280,7 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
       <pointLight position={[0, 0, 0]} intensity={1.2} />
 
       <OrbitControls
-        ref={controlsRef}
+        ref={controlsRef as never}
         enablePan
         enableRotate
         enableZoom
@@ -285,7 +288,7 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
         rotateSpeed={0.6}
         panSpeed={0.6}
       />
-      <ZoomBridge controlsRef={controlsRef} zoomRef={zoomRef} />
+      <ZoomBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} zoomRef={zoomRef} />
 
       <Stars showLabels={showLabels} />
       <Earth />
