@@ -10,6 +10,8 @@ type Props = {
   onShowLabelsChange: (v: boolean) => void;
   shipPos: [number, number, number];
   distanceFromSol: number;
+  onZoomIn: () => void;
+  onZoomOut: () => void;
 };
 
 export function StarMapUI({
@@ -19,6 +21,8 @@ export function StarMapUI({
   onShowLabelsChange,
   shipPos,
   distanceFromSol,
+  onZoomIn,
+  onZoomOut,
 }: Props) {
   const [speedIndex, setSpeedIndex] = useState(1); // 1x default
 
@@ -43,12 +47,14 @@ export function StarMapUI({
       {/* Top Right — Zoom controls */}
       <div className="pointer-events-auto absolute right-6 top-6 flex gap-3">
         <button
+          onClick={onZoomIn}
           className="map-btn flex h-11 w-11 items-center justify-center"
           aria-label="Zoom in"
         >
           <Plus size={18} strokeWidth={2.5} />
         </button>
         <button
+          onClick={onZoomOut}
           className="map-btn flex h-11 w-11 items-center justify-center"
           aria-label="Zoom out"
         >

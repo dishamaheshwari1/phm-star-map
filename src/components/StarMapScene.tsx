@@ -1,6 +1,10 @@
-import { useMemo } from "react";
-import { Canvas } from "@react-three/fiber";
+import { useMemo, useRef, useEffect } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html, Line } from "@react-three/drei";
+type OrbitControlsImpl = {
+  target: THREE.Vector3;
+  update: () => void;
+};
 import * as THREE from "three";
 import starData from "@/data/stellarSystems20ly.json";
 
@@ -16,17 +20,25 @@ type Star = {
 
 type Props = {
   curve: THREE.CatmullRomCurve3;
-  progress: number; // 0-100
+  progress: number;
   shipPos: [number, number, number];
   showLabels: boolean;
+  zoomRef: React.MutableRefObject<((dir: 1 | -1) => void) | null>;
 };
 
-// Convert apparent magnitude to a sphere radius. Lower magnitude => larger.
+const ALWAYS_LABELED = new Set([
+  "Earth",
+  "Sol",
+  "Tau Ceti",
+  "40 Eridani A",
+  "Hail Mary",
+]);
+
+const PROXIMITY_THRESHOLD = 8; // LY-ish units
+
 function radiusFromMagnitude(mag: number): number {
-  // Clamp magnitude into a sensible range, then map to radius.
   const m = Math.max(-2, Math.min(17, mag));
-  // Map mag from [-2 (very bright), 17 (very dim)] to [0.55, 0.12]
-  const t = (m + 2) / 19; // 0 -> 1
+  const t = (m + 2) / 19;
   return 0.55 - t * 0.43;
 }
 
@@ -43,8 +55,11 @@ function StarLabel({ name }: { name: string }) {
         fontSize: "11px",
         letterSpacing: "0.08em",
         whiteSpace: "nowrap",
-        transform: "translateY(-14px)",
-        textShadow: "0 0 6px rgba(0,0,0,0.9)",
+        transform: "translateY(-18px)",
+        background: "rgba(0,0,0,0.6)",
+        padding: "2px 6px",
+        borderRadius: "3px",
+        border: "1px solid rgba(255,255,255,0.12)",
       }}
     >
       {name.toUpperCase()}
@@ -52,38 +67,87 @@ function StarLabel({ name }: { name: string }) {
   );
 }
 
+function StarObj({
+  star,
+  showLabels,
+}: {
+  star: Star;
+  showLabels: boolean;
+}) {
+  const matRef = useRef<THREE.MeshStandardMaterial>(null);
+  const labelVisRef = useRef<HTMLDivElement>(null);
+  const showAlways = ALWAYS_LABELED.has(star.name);
+  const tmpVec = useMemo(() => new THREE.Vector3(), []);
+  const starPos = useMemo(
+    () => new THREE.Vector3(star.x, star.y, star.z),
+    [star.x, star.y, star.z],
+  );
+  const closeRef = useRef(showAlways);
+
+  useFrame(({ camera }) => {
+    const dist = camera.getWorldPosition(tmpVec).distanceTo(starPos);
+    // Glow when close
+    const close = dist < PROXIMITY_THRESHOLD;
+    if (matRef.current) {
+      const target = close ? 1.6 : 0;
+      // smooth a bit
+      matRef.current.emissiveIntensity +=
+        (target - matRef.current.emissiveIntensity) * 0.15;
+    }
+    closeRef.current = close;
+  });
+
+  const r = radiusFromMagnitude(star.magnitude);
+
+  return (
+    <group position={[star.x, star.y, star.z]}>
+      <mesh>
+        <sphereGeometry args={[r, 24, 24]} />
+        <meshStandardMaterial
+          ref={matRef}
+          color={star.color}
+          emissive={star.color}
+          emissiveIntensity={0}
+          toneMapped={false}
+        />
+      </mesh>
+      {showLabels && (showAlways ? (
+        <StarLabel name={star.name} />
+      ) : (
+        <ProximityLabel name={star.name} starPos={starPos} />
+      ))}
+    </group>
+  );
+}
+
+function ProximityLabel({
+  name,
+  starPos,
+}: {
+  name: string;
+  starPos: THREE.Vector3;
+}) {
+  const groupRef = useRef<THREE.Group>(null);
+  const tmp = useMemo(() => new THREE.Vector3(), []);
+  useFrame(({ camera }) => {
+    if (!groupRef.current) return;
+    const d = camera.getWorldPosition(tmp).distanceTo(starPos);
+    groupRef.current.visible = d < PROXIMITY_THRESHOLD;
+  });
+  return (
+    <group ref={groupRef}>
+      <StarLabel name={name} />
+    </group>
+  );
+}
+
 function Stars({ showLabels }: { showLabels: boolean }) {
   const stars = starData as Star[];
   return (
     <>
-      {stars.map((s) => {
-        const r = radiusFromMagnitude(s.magnitude);
-        return (
-          <group key={s.name} position={[s.x, s.y, s.z]}>
-            <mesh>
-              <sphereGeometry args={[r, 24, 24]} />
-              <meshStandardMaterial
-                color={s.color}
-                emissive={s.color}
-                emissiveIntensity={1.4}
-                toneMapped={false}
-              />
-            </mesh>
-            {/* Soft glow halo */}
-            <mesh>
-              <sphereGeometry args={[r * 1.8, 16, 16]} />
-              <meshBasicMaterial
-                color={s.color}
-                transparent
-                opacity={0.12}
-                depthWrite={false}
-                toneMapped={false}
-              />
-            </mesh>
-            {showLabels && <StarLabel name={s.name} />}
-          </group>
-        );
-      })}
+      {stars.map((s) => (
+        <StarObj key={s.name} star={s} showLabels={showLabels} />
+      ))}
     </>
   );
 }
@@ -100,6 +164,7 @@ function PathAndShip({
   showLabels: boolean;
 }) {
   const t = Math.min(Math.max(progress / 100, 0), 1);
+  const matRef = useRef<THREE.MeshStandardMaterial>(null);
 
   const { behindPoints, aheadPoints } = useMemo(() => {
     const SEGMENTS = 200;
@@ -110,9 +175,15 @@ function PathAndShip({
     return { behindPoints: behind, aheadPoints: ahead };
   }, [curve, t]);
 
+  useFrame(({ clock }) => {
+    if (matRef.current) {
+      const v = (Math.sin(clock.elapsedTime * 4) + 1) / 2; // 0..1
+      matRef.current.opacity = 0.35 + v * 0.65;
+    }
+  });
+
   return (
     <>
-      {/* Solid red — behind ship */}
       {behindPoints.length >= 2 && (
         <Line
           points={behindPoints}
@@ -122,7 +193,6 @@ function PathAndShip({
           opacity={0.95}
         />
       )}
-      {/* Dashed red — ahead of ship */}
       {aheadPoints.length >= 2 && (
         <Line
           points={aheadPoints}
@@ -136,24 +206,16 @@ function PathAndShip({
         />
       )}
 
-      {/* Hail Mary ship */}
+      {/* Hail Mary ship — small, red, blinking */}
       <group position={shipPos}>
         <mesh>
-          <sphereGeometry args={[0.22, 20, 20]} />
+          <sphereGeometry args={[0.08, 16, 16]} />
           <meshStandardMaterial
-            color="#ff2a2a"
-            emissive="#ff2a2a"
-            emissiveIntensity={2.2}
-            toneMapped={false}
-          />
-        </mesh>
-        <mesh>
-          <sphereGeometry args={[0.5, 16, 16]} />
-          <meshBasicMaterial
-            color="#ff2a2a"
+            ref={matRef}
+            color="#FF0000"
             transparent
-            opacity={0.18}
-            depthWrite={false}
+            opacity={1}
+            emissiveIntensity={0}
             toneMapped={false}
           />
         </mesh>
@@ -163,7 +225,52 @@ function PathAndShip({
   );
 }
 
-export function StarMapScene({ curve, progress, shipPos, showLabels }: Props) {
+function Earth() {
+  return (
+    <group position={[0.2, 0.2, 0]}>
+      <mesh>
+        <sphereGeometry args={[0.07, 16, 16]} />
+        <meshStandardMaterial
+          color="#22dd55"
+          emissive="#22dd55"
+          emissiveIntensity={1.2}
+          toneMapped={false}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+function ZoomBridge({
+  controlsRef,
+  zoomRef,
+}: {
+  controlsRef: React.RefObject<OrbitControlsImpl>;
+  zoomRef: React.MutableRefObject<((dir: 1 | -1) => void) | null>;
+}) {
+  const { camera } = useThree();
+  useEffect(() => {
+    zoomRef.current = (dir: 1 | -1) => {
+      const controls = controlsRef.current;
+      if (!controls) return;
+      const target = controls.target;
+      const offset = new THREE.Vector3().subVectors(camera.position, target);
+      // dir = 1 zoom in (shorten), -1 zoom out (lengthen)
+      const factor = dir === 1 ? 0.8 : 1.25;
+      offset.multiplyScalar(factor);
+      camera.position.copy(target).add(offset);
+      controls.update();
+    };
+    return () => {
+      zoomRef.current = null;
+    };
+  }, [camera, controlsRef, zoomRef]);
+  return null;
+}
+
+export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: Props) {
+  const controlsRef = useRef<OrbitControlsImpl>(null);
+
   return (
     <Canvas
       camera={{ position: [14, 10, 18], fov: 60, near: 0.1, far: 1000 }}
@@ -173,6 +280,7 @@ export function StarMapScene({ curve, progress, shipPos, showLabels }: Props) {
       <pointLight position={[0, 0, 0]} intensity={1.2} />
 
       <OrbitControls
+        ref={controlsRef as never}
         enablePan
         enableRotate
         enableZoom
@@ -180,8 +288,10 @@ export function StarMapScene({ curve, progress, shipPos, showLabels }: Props) {
         rotateSpeed={0.6}
         panSpeed={0.6}
       />
+      <ZoomBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} zoomRef={zoomRef} />
 
       <Stars showLabels={showLabels} />
+      <Earth />
       <PathAndShip
         curve={curve}
         progress={progress}
