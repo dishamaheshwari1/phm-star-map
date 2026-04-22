@@ -17,20 +17,20 @@ export function StarMapUI() {
   return (
     <>
       {/* Top Left — Title */}
-      <div className="pointer-events-auto absolute left-6 top-6 map-widget">
-        <div className="font-display-bold text-base">LOCAL STAR MAP</div>
+      <div className="pointer-events-auto absolute left-6 top-6 map-widget" style={{ padding: "0.5rem 0.85rem" }}>
+        <div className="font-display-bold text-2xl leading-none">LOCAL STAR MAP</div>
       </div>
 
       {/* Top Right — Zoom controls */}
       <div className="pointer-events-auto absolute right-6 top-6 flex gap-3">
         <button
-          className="map-btn flex h-11 w-11 items-center justify-center"
+          className="map-btn flex h-11 w-11 items-center justify-center rounded-lg"
           aria-label="Zoom in"
         >
           <Plus size={18} strokeWidth={2.5} />
         </button>
         <button
-          className="map-btn flex h-11 w-11 items-center justify-center"
+          className="map-btn flex h-11 w-11 items-center justify-center rounded-lg"
           aria-label="Zoom out"
         >
           <Minus size={18} strokeWidth={2.5} />
