@@ -140,12 +140,18 @@ function ProximityLabel({
   return <StarLabel name={name} />;
 }
 
-function Stars({ showLabels }: { showLabels: boolean }) {
+function Stars({
+  showLabels,
+  onFocus,
+}: {
+  showLabels: boolean;
+  onFocus: (pos: [number, number, number]) => void;
+}) {
   const stars = starData as Star[];
   return (
     <>
       {stars.map((s) => (
-        <StarObj key={s.name} star={s} showLabels={showLabels} />
+        <StarObj key={s.name} star={s} showLabels={showLabels} onFocus={onFocus} />
       ))}
     </>
   );
