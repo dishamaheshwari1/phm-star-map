@@ -48,8 +48,8 @@ export function StarMapUI({
     <>
       {/* Top Left — Title */}
       <div
-        className="pointer-events-auto absolute left-6 top-6 map-widget"
-        style={{ padding: "0.5rem 0.85rem" }}
+        className="pointer-events-auto absolute left-6 top-6 map-widget w-fit"
+        style={{ padding: "0.6rem 1.1rem", maxWidth: "none" }}
       >
         <div className="font-display-bold whitespace-nowrap text-2xl leading-none tracking-[0.18em]">
           LOCAL STELLAR AREA
