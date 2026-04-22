@@ -55,7 +55,7 @@ function Index() {
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-black">
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <StarMapScene
           curve={curve}
           progress={progress}
@@ -64,7 +64,7 @@ function Index() {
           zoomRef={zoomRef}
         />
       </div>
-      <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0 z-[100]">
         <StarMapUI
           progress={progress}
           onProgressChange={setProgress}
