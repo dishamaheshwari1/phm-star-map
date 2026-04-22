@@ -277,6 +277,8 @@ export function StarMapScene({
         zoomToCursor={true}
         zoomSpeed={0.9}
         rotateSpeed={0.7}
+        minDistance={0.01}
+        maxDistance={200}
         mouseButtons={{
           LEFT: THREE.MOUSE.ROTATE,
           MIDDLE: THREE.MOUSE.DOLLY,
