@@ -69,9 +69,11 @@ function StarLabel({ name }: { name: string }) {
 function StarObj({
   star,
   showLabels,
+  onFocus,
 }: {
   star: Star;
   showLabels: boolean;
+  onFocus: (pos: [number, number, number]) => void;
 }) {
   const matRef = useRef<THREE.MeshStandardMaterial>(null);
   const showAlways = ALWAYS_LABELED.has(star.name);
@@ -96,7 +98,12 @@ function StarObj({
 
   return (
     <group position={[star.x, star.y, star.z]}>
-      <mesh>
+      <mesh
+        onDoubleClick={(e) => {
+          e.stopPropagation();
+          onFocus([star.x, star.y, star.z]);
+        }}
+      >
         <sphereGeometry args={[r, 24, 24]} />
         <meshStandardMaterial
           ref={matRef}
@@ -133,12 +140,18 @@ function ProximityLabel({
   return <StarLabel name={name} />;
 }
 
-function Stars({ showLabels }: { showLabels: boolean }) {
+function Stars({
+  showLabels,
+  onFocus,
+}: {
+  showLabels: boolean;
+  onFocus: (pos: [number, number, number]) => void;
+}) {
   const stars = starData as Star[];
   return (
     <>
       {stars.map((s) => (
-        <StarObj key={s.name} star={s} showLabels={showLabels} />
+        <StarObj key={s.name} star={s} showLabels={showLabels} onFocus={onFocus} />
       ))}
     </>
   );
@@ -271,12 +284,14 @@ function ZoomBridge({
   return null;
 }
 
-function RecenterBridge({
+function TargetTween({
   controlsRef,
+  cameraTarget,
 }: {
   controlsRef: React.RefObject<OrbitControlsImpl>;
+  cameraTarget: [number, number, number];
 }) {
-  const { camera, gl, scene } = useThree();
+  const { camera } = useThree();
   const tweenRef = useRef<{
     fromTarget: THREE.Vector3;
     toTarget: THREE.Vector3;
@@ -285,56 +300,27 @@ function RecenterBridge({
     start: number;
     duration: number;
   } | null>(null);
+  const lastTargetRef = useRef<[number, number, number]>([0, 0, 0]);
 
   useEffect(() => {
-    const dom = gl.domElement;
-    const raycaster = new THREE.Raycaster();
-    const ndc = new THREE.Vector2();
+    const controls = controlsRef.current;
+    if (!controls) return;
+    const [tx, ty, tz] = cameraTarget;
+    const [lx, ly, lz] = lastTargetRef.current;
+    if (tx === lx && ty === ly && tz === lz) return;
+    lastTargetRef.current = cameraTarget;
 
-    const handleDblClick = (e: MouseEvent) => {
-      const controls = controlsRef.current;
-      if (!controls) return;
-      const rect = dom.getBoundingClientRect();
-      ndc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      ndc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-      raycaster.setFromCamera(ndc, camera);
-
-      const hits = raycaster
-        .intersectObjects(scene.children, true)
-        .filter((h) => (h.object as THREE.Mesh).isMesh);
-
-      let newTarget: THREE.Vector3;
-      if (hits.length > 0) {
-        newTarget = hits[0].point.clone();
-      } else {
-        // Project click onto a plane through the current target, facing camera
-        const planeNormal = new THREE.Vector3()
-          .subVectors(camera.position, controls.target)
-          .normalize();
-        const plane = new THREE.Plane().setFromNormalAndCoplanarPoint(
-          planeNormal,
-          controls.target,
-        );
-        const point = new THREE.Vector3();
-        if (!raycaster.ray.intersectPlane(plane, point)) return;
-        newTarget = point;
-      }
-
-      // Translate the camera by the same delta so view-distance is preserved
-      const delta = new THREE.Vector3().subVectors(newTarget, controls.target);
-      tweenRef.current = {
-        fromTarget: controls.target.clone(),
-        toTarget: newTarget,
-        fromCam: camera.position.clone(),
-        toCam: camera.position.clone().add(delta),
-        start: performance.now(),
-        duration: 600,
-      };
+    const newTarget = new THREE.Vector3(tx, ty, tz);
+    const delta = new THREE.Vector3().subVectors(newTarget, controls.target);
+    tweenRef.current = {
+      fromTarget: controls.target.clone(),
+      toTarget: newTarget,
+      fromCam: camera.position.clone(),
+      toCam: camera.position.clone().add(delta),
+      start: performance.now(),
+      duration: 600,
     };
-
-    dom.addEventListener("dblclick", handleDblClick);
-    return () => dom.removeEventListener("dblclick", handleDblClick);
-  }, [camera, gl, scene, controlsRef]);
+  }, [cameraTarget, camera, controlsRef]);
 
   useFrame(() => {
     const tween = tweenRef.current;
@@ -353,11 +339,27 @@ function RecenterBridge({
 
 export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: Props) {
   const controlsRef = useRef<OrbitControlsImpl>(null);
+  const [cameraTarget, setCameraTarget] = useState<[number, number, number]>([0, 0, 0]);
+
+  const handleFocus = (pos: [number, number, number]) => setCameraTarget(pos);
+  const handleBackgroundReset = () => setCameraTarget([0, 0, 0]);
 
   return (
     <Canvas
       camera={{ position: [14, 10, 18], fov: 60, near: 0.1, far: 1000 }}
       style={{ background: "#000000" }}
+      onDoubleClick={(e) => {
+        // Fires only when no mesh inside the canvas captured the event
+        if (e.target === e.currentTarget) {
+          handleBackgroundReset();
+        }
+      }}
+      onPointerMissed={(e) => {
+        // r3f: triggered on double-click that misses all meshes
+        if ((e as MouseEvent).detail === 2) {
+          handleBackgroundReset();
+        }
+      }}
     >
       <ambientLight intensity={0.8} />
       <pointLight position={[0, 0, 0]} intensity={1.2} />
@@ -372,6 +374,7 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
         panSpeed={1.0}
         rotateSpeed={0.7}
         screenSpacePanning={true}
+        target={cameraTarget}
         mouseButtons={{
           LEFT: THREE.MOUSE.ROTATE,
           MIDDLE: THREE.MOUSE.DOLLY,
@@ -383,9 +386,12 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
         }}
       />
       <ZoomBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} zoomRef={zoomRef} />
-      <RecenterBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} />
+      <TargetTween
+        controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>}
+        cameraTarget={cameraTarget}
+      />
 
-      <Stars showLabels={showLabels} />
+      <Stars showLabels={showLabels} onFocus={handleFocus} />
       <Earth />
       <PathAndShip
         curve={curve}
