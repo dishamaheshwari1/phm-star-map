@@ -271,6 +271,86 @@ function ZoomBridge({
   return null;
 }
 
+function RecenterBridge({
+  controlsRef,
+}: {
+  controlsRef: React.RefObject<OrbitControlsImpl>;
+}) {
+  const { camera, gl, scene } = useThree();
+  const tweenRef = useRef<{
+    fromTarget: THREE.Vector3;
+    toTarget: THREE.Vector3;
+    fromCam: THREE.Vector3;
+    toCam: THREE.Vector3;
+    start: number;
+    duration: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const dom = gl.domElement;
+    const raycaster = new THREE.Raycaster();
+    const ndc = new THREE.Vector2();
+
+    const handleDblClick = (e: MouseEvent) => {
+      const controls = controlsRef.current;
+      if (!controls) return;
+      const rect = dom.getBoundingClientRect();
+      ndc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      ndc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(ndc, camera);
+
+      const hits = raycaster
+        .intersectObjects(scene.children, true)
+        .filter((h) => (h.object as THREE.Mesh).isMesh);
+
+      let newTarget: THREE.Vector3;
+      if (hits.length > 0) {
+        newTarget = hits[0].point.clone();
+      } else {
+        // Project click onto a plane through the current target, facing camera
+        const planeNormal = new THREE.Vector3()
+          .subVectors(camera.position, controls.target)
+          .normalize();
+        const plane = new THREE.Plane().setFromNormalAndCoplanarPoint(
+          planeNormal,
+          controls.target,
+        );
+        const point = new THREE.Vector3();
+        if (!raycaster.ray.intersectPlane(plane, point)) return;
+        newTarget = point;
+      }
+
+      // Translate the camera by the same delta so view-distance is preserved
+      const delta = new THREE.Vector3().subVectors(newTarget, controls.target);
+      tweenRef.current = {
+        fromTarget: controls.target.clone(),
+        toTarget: newTarget,
+        fromCam: camera.position.clone(),
+        toCam: camera.position.clone().add(delta),
+        start: performance.now(),
+        duration: 600,
+      };
+    };
+
+    dom.addEventListener("dblclick", handleDblClick);
+    return () => dom.removeEventListener("dblclick", handleDblClick);
+  }, [camera, gl, scene, controlsRef]);
+
+  useFrame(() => {
+    const tween = tweenRef.current;
+    const controls = controlsRef.current;
+    if (!tween || !controls) return;
+    const t = Math.min(1, (performance.now() - tween.start) / tween.duration);
+    const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    controls.target.lerpVectors(tween.fromTarget, tween.toTarget, e);
+    camera.position.lerpVectors(tween.fromCam, tween.toCam, e);
+    controls.update();
+    if (t >= 1) tweenRef.current = null;
+  });
+
+  return null;
+}
+
 export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: Props) {
   const controlsRef = useRef<OrbitControlsImpl>(null);
 
