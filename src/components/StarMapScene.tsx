@@ -69,9 +69,11 @@ function StarLabel({ name }: { name: string }) {
 function StarObj({
   star,
   showLabels,
+  onFocus,
 }: {
   star: Star;
   showLabels: boolean;
+  onFocus: (pos: [number, number, number]) => void;
 }) {
   const matRef = useRef<THREE.MeshStandardMaterial>(null);
   const showAlways = ALWAYS_LABELED.has(star.name);
