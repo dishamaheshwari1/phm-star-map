@@ -56,10 +56,7 @@ function StarLabel({ name }: { name: string }) {
         letterSpacing: "0.08em",
         whiteSpace: "nowrap",
         transform: "translateY(-18px)",
-        background: "rgba(0,0,0,0.6)",
-        padding: "2px 6px",
-        borderRadius: "3px",
-        border: "1px solid rgba(255,255,255,0.12)",
+        textShadow: "0 0 4px rgba(0,0,0,0.9)",
       }}
     >
       {name.toUpperCase()}
@@ -75,26 +72,21 @@ function StarObj({
   showLabels: boolean;
 }) {
   const matRef = useRef<THREE.MeshStandardMaterial>(null);
-  const labelVisRef = useRef<HTMLDivElement>(null);
   const showAlways = ALWAYS_LABELED.has(star.name);
   const tmpVec = useMemo(() => new THREE.Vector3(), []);
   const starPos = useMemo(
     () => new THREE.Vector3(star.x, star.y, star.z),
     [star.x, star.y, star.z],
   );
-  const closeRef = useRef(showAlways);
 
   useFrame(({ camera }) => {
     const dist = camera.getWorldPosition(tmpVec).distanceTo(starPos);
-    // Glow when close
     const close = dist < PROXIMITY_THRESHOLD;
     if (matRef.current) {
       const target = close ? 1.6 : 0;
-      // smooth a bit
       matRef.current.emissiveIntensity +=
         (target - matRef.current.emissiveIntensity) * 0.15;
     }
-    closeRef.current = close;
   });
 
   const r = radiusFromMagnitude(star.magnitude);
@@ -164,7 +156,7 @@ function PathAndShip({
   showLabels: boolean;
 }) {
   const t = Math.min(Math.max(progress / 100, 0), 1);
-  const matRef = useRef<THREE.MeshStandardMaterial>(null);
+  const matRef = useRef<THREE.MeshBasicMaterial>(null);
 
   const { behindPoints, aheadPoints } = useMemo(() => {
     const SEGMENTS = 200;
@@ -206,16 +198,16 @@ function PathAndShip({
         />
       )}
 
-      {/* Hail Mary ship — small, red, blinking */}
+      {/* Hail Mary ship — small, red, blinking, always on top */}
       <group position={shipPos}>
-        <mesh>
+        <mesh renderOrder={999}>
           <sphereGeometry args={[0.08, 16, 16]} />
-          <meshStandardMaterial
+          <meshBasicMaterial
             ref={matRef}
             color="#FF0000"
             transparent
             opacity={1}
-            emissiveIntensity={0}
+            depthTest={false}
             toneMapped={false}
           />
         </mesh>
@@ -227,13 +219,12 @@ function PathAndShip({
 
 function Earth() {
   return (
-    <group position={[0.2, 0.2, 0]}>
-      <mesh>
+    <group position={[0.000015, 0, 0]}>
+      <mesh renderOrder={998}>
         <sphereGeometry args={[0.07, 16, 16]} />
-        <meshStandardMaterial
+        <meshBasicMaterial
           color="#22dd55"
-          emissive="#22dd55"
-          emissiveIntensity={1.2}
+          depthTest={false}
           toneMapped={false}
         />
       </mesh>
@@ -253,9 +244,9 @@ function ZoomBridge({
     zoomRef.current = (dir: 1 | -1) => {
       const controls = controlsRef.current;
       if (!controls) return;
+      // Zoom toward the current OrbitControls target (where the user is looking)
       const target = controls.target;
       const offset = new THREE.Vector3().subVectors(camera.position, target);
-      // dir = 1 zoom in (shorten), -1 zoom out (lengthen)
       const factor = dir === 1 ? 0.8 : 1.25;
       offset.multiplyScalar(factor);
       camera.position.copy(target).add(offset);
@@ -276,17 +267,18 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
       camera={{ position: [14, 10, 18], fov: 60, near: 0.1, far: 1000 }}
       style={{ background: "#000000" }}
     >
-      <ambientLight intensity={0.35} />
+      <ambientLight intensity={0.8} />
       <pointLight position={[0, 0, 0]} intensity={1.2} />
 
       <OrbitControls
         ref={controlsRef as never}
-        enablePan
+        enablePan={true}
         enableRotate
         enableZoom
         zoomSpeed={0.8}
         rotateSpeed={0.6}
-        panSpeed={0.6}
+        panSpeed={0.8}
+        screenSpacePanning={true}
       />
       <ZoomBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} zoomRef={zoomRef} />
 

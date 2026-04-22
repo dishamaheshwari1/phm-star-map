@@ -16,9 +16,9 @@ export const Route = createFileRoute("/")({
 
 // Path waypoints: Earth -> Tau Ceti -> pivot -> 40 Eridani A
 const PATH_POINTS: [number, number, number][] = [
-  [0.2, 0.2, 0],
+  [0.000015, 0, 0],
   [10.29, 5.02, -3.27],
-  [5.0, 2.5, -1.6],
+  [7.5, 8.0, -4.5],
   [7.14, 14.53, -2.17],
 ];
 
@@ -44,9 +44,9 @@ function Index() {
   }, [curve, progress]);
 
   const shipCoords: [number, number, number] = [shipPos.x, shipPos.y, shipPos.z];
-  // Distance from Earth (0.2, 0.2, 0)
-  const dx = shipPos.x - 0.2;
-  const dy = shipPos.y - 0.2;
+  // Distance from Earth (~origin)
+  const dx = shipPos.x - 0.000015;
+  const dy = shipPos.y;
   const dz = shipPos.z;
   const distanceFromSol = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
