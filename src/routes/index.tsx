@@ -3,6 +3,23 @@ import { useMemo, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import { StarMapScene } from "@/components/StarMapScene";
 import { StarMapUI } from "@/components/StarMapUI";
+import starData from "@/data/stellarSystems20ly.json";
+
+type StarRec = { name: string; x: number; y: number; z: number };
+
+const PLANET_NAMES = new Set([
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+]);
+
+const NEAREST_SYSTEM_THRESHOLD = 0.5; // LY
+const EARTH_POS: [number, number, number] = [0.000015, 0, 0];
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -44,11 +61,38 @@ function Index() {
   }, [curve, progress]);
 
   const shipCoords: [number, number, number] = [shipPos.x, shipPos.y, shipPos.z];
-  // Distance from Earth (~origin)
-  const dx = shipPos.x - 0.000015;
-  const dy = shipPos.y;
-  const dz = shipPos.z;
-  const distanceFromSol = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+  // Distance from Earth
+  const dxE = shipPos.x - EARTH_POS[0];
+  const dyE = shipPos.y - EARTH_POS[1];
+  const dzE = shipPos.z - EARTH_POS[2];
+  const distanceFromEarth = Math.sqrt(dxE * dxE + dyE * dyE + dzE * dzE);
+
+  // Filtered stars (exclude planets) memoized once
+  const stars = useMemo(
+    () => (starData as StarRec[]).filter((s) => !PLANET_NAMES.has(s.name)),
+    [],
+  );
+
+  // Distance to nearest star + system identification
+  const { nearestDistance, nearestName } = useMemo(() => {
+    let best = Infinity;
+    let bestName = "";
+    for (const s of stars) {
+      const dx = shipPos.x - s.x;
+      const dy = shipPos.y - s.y;
+      const dz = shipPos.z - s.z;
+      const d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      if (d < best) {
+        best = d;
+        bestName = s.name;
+      }
+    }
+    return { nearestDistance: best, nearestName: bestName };
+  }, [stars, shipPos.x, shipPos.y, shipPos.z]);
+
+  const systemName =
+    nearestDistance < NEAREST_SYSTEM_THRESHOLD ? nearestName : "";
 
   const onZoomIn = useCallback(() => zoomRef.current?.(1), []);
   const onZoomOut = useCallback(() => zoomRef.current?.(-1), []);
@@ -71,7 +115,9 @@ function Index() {
           showLabels={showLabels}
           onShowLabelsChange={setShowLabels}
           shipPos={shipCoords}
-          distanceFromSol={distanceFromSol}
+          distanceFromEarth={distanceFromEarth}
+          nearestDistance={nearestDistance}
+          systemName={systemName}
           onZoomIn={onZoomIn}
           onZoomOut={onZoomOut}
         />
