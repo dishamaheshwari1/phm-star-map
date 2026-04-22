@@ -285,12 +285,22 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
       <OrbitControls
         ref={controlsRef as never}
         enablePan={true}
-        enableRotate
-        enableZoom
+        enableRotate={false}
+        enableZoom={true}
         zoomSpeed={0.8}
-        rotateSpeed={0.6}
-        panSpeed={0.8}
+        panSpeed={1.0}
         screenSpacePanning={true}
+        // Left-click drag pans (instead of rotating). Middle/right also pan.
+        mouseButtons={{
+          LEFT: THREE.MOUSE.PAN,
+          MIDDLE: THREE.MOUSE.DOLLY,
+          RIGHT: THREE.MOUSE.PAN,
+        }}
+        // One-finger drag pans, two-finger pinch zooms (DOLLY_PAN gives pinch-to-zoom).
+        touches={{
+          ONE: THREE.TOUCH.PAN,
+          TWO: THREE.TOUCH.DOLLY_PAN,
+        }}
       />
       <ZoomBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} zoomRef={zoomRef} />
 
