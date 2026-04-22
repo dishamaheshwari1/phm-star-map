@@ -51,7 +51,7 @@ export function StarMapUI({
         className="pointer-events-auto absolute left-6 top-6 map-widget"
         style={{ padding: "0.5rem 0.85rem" }}
       >
-        <div className="font-display-bold whitespace-nowrap text-base leading-none tracking-[0.18em]">
+        <div className="font-display-bold whitespace-nowrap text-2xl leading-none tracking-[0.18em]">
           LOCAL STELLAR AREA
         </div>
       </div>
@@ -162,13 +162,13 @@ export function StarMapUI({
           </label>
           <button
             onClick={onTogglePlay}
-            className="map-btn flex h-9 w-9 items-center justify-center"
+            className="flex h-9 w-9 items-center justify-center bg-transparent border-0 outline-none text-white/90 hover:text-white transition-colors cursor-pointer"
             aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? (
-              <Pause size={16} strokeWidth={2.5} />
+              <Pause size={18} strokeWidth={2.5} />
             ) : (
-              <Play size={16} strokeWidth={2.5} />
+              <Play size={18} strokeWidth={2.5} />
             )}
           </button>
         </div>

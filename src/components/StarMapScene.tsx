@@ -60,11 +60,12 @@ function StarLabel({
   quadrant = "tr",
 }: {
   name: string;
-  quadrant?: "tr" | "br";
+  quadrant?: "tr" | "bl";
 }) {
   const transform =
-    quadrant === "br" ? "translate(12px, 12px)" : "translate(12px, -12px)";
-  const transformOrigin = quadrant === "br" ? "left top" : "left bottom";
+    quadrant === "bl" ? "translate(-12px, 12px)" : "translate(12px, -12px)";
+  const transformOrigin =
+    quadrant === "bl" ? "right top" : "left bottom";
   return (
     <Html
       center
