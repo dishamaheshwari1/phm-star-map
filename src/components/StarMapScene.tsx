@@ -94,27 +94,13 @@ function StarObj({
   );
 
   const r = radiusFromMagnitude(star.magnitude);
-  // Glow halo radius — small and crisp
-  const glowR = r * 2.6;
 
   return (
     <group position={[star.x, star.y, star.z]}>
-      {/* Brilliant core — emissive, unaffected by scene lighting */}
+      {/* Crisp solid sphere — saturated color, no halo */}
       <mesh>
-        <sphereGeometry args={[r, 24, 24]} />
+        <sphereGeometry args={[r, 32, 32]} />
         <meshBasicMaterial color={star.color} toneMapped={false} />
-      </mesh>
-      {/* Crisp emissive halo — additive blending for a point-of-light feel */}
-      <mesh>
-        <sphereGeometry args={[glowR, 16, 16]} />
-        <meshBasicMaterial
-          color={star.color}
-          transparent
-          opacity={0.18}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          toneMapped={false}
-        />
       </mesh>
       {showLabels &&
         (showAlways ? (
