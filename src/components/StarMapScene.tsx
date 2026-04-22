@@ -94,27 +94,13 @@ function StarObj({
   );
 
   const r = radiusFromMagnitude(star.magnitude);
-  // Glow halo radius — small and crisp
-  const glowR = r * 2.6;
 
   return (
     <group position={[star.x, star.y, star.z]}>
-      {/* Brilliant core — emissive, unaffected by scene lighting */}
+      {/* Crisp solid sphere — saturated color, no halo */}
       <mesh>
-        <sphereGeometry args={[r, 24, 24]} />
+        <sphereGeometry args={[r, 32, 32]} />
         <meshBasicMaterial color={star.color} toneMapped={false} />
-      </mesh>
-      {/* Crisp emissive halo — additive blending for a point-of-light feel */}
-      <mesh>
-        <sphereGeometry args={[glowR, 16, 16]} />
-        <meshBasicMaterial
-          color={star.color}
-          transparent
-          opacity={0.18}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          toneMapped={false}
-        />
       </mesh>
       {showLabels &&
         (showAlways ? (
@@ -250,7 +236,7 @@ function ZoomBridge({
       if (distToTarget < 1e-4) return;
       toTarget.normalize();
       const ZOOM_FRACTION = 0.25;
-      const minDist = 0.5;
+      const minDist = 0.01;
       const maxDist = 200;
       let step = distToTarget * ZOOM_FRACTION * (dir === 1 ? 1 : -1);
       const nextDist = distToTarget - step;
@@ -291,6 +277,8 @@ export function StarMapScene({
         zoomToCursor={true}
         zoomSpeed={0.9}
         rotateSpeed={0.7}
+        minDistance={0.01}
+        maxDistance={200}
         mouseButtons={{
           LEFT: THREE.MOUSE.ROTATE,
           MIDDLE: THREE.MOUSE.DOLLY,
