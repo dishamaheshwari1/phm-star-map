@@ -104,7 +104,7 @@ function StarObj({
   );
 
   const r = radiusFromMagnitude(star.magnitude);
-  const quadrant: "tr" | "br" = index % 2 === 0 ? "tr" : "br";
+  const quadrant: "tr" = "tr";
   const isBright = star.magnitude < BRIGHT_MAGNITUDE;
 
   return (
@@ -134,7 +134,7 @@ function ProximityLabel({
 }: {
   name: string;
   starPos: THREE.Vector3;
-  quadrant: "tr" | "br";
+  quadrant: "tr";
 }) {
   const [visible, setVisible] = useState(false);
   const tmp = useMemo(() => new THREE.Vector3(), []);
@@ -227,7 +227,7 @@ function PathAndShip({
             toneMapped={false}
           />
         </mesh>
-        {showLabels && <StarLabel name="Hail Mary" />}
+        {showLabels && <StarLabel name="Hail Mary" quadrant="bl" />}
       </group>
     </>
   );
