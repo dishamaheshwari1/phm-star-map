@@ -1,6 +1,6 @@
 import { useMemo, useRef, useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Html, Line } from "@react-three/drei";
+import { OrbitControls, Html, Line, Stars as DreiStars } from "@react-three/drei";
 type OrbitControlsImpl = {
   target: THREE.Vector3;
   update: () => void;
@@ -315,6 +315,15 @@ export function StarMapScene({
       style={{ background: "#000000" }}
     >
       <ambientLight intensity={0.4} />
+
+      <DreiStars
+        radius={100}
+        depth={50}
+        count={5000}
+        factor={4}
+        saturation={0}
+        fade={true}
+      />
 
       <OrbitControls
         ref={controlsRef as never}
