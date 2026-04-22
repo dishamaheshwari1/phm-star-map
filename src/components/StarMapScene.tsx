@@ -32,7 +32,7 @@ type Props = {
 };
 
 // Base duration for 1x speed to traverse 0 -> 100% (in seconds)
-const BASE_DURATION_SEC = 60;
+const BASE_DURATION_SEC = 180;
 
 // Solar system planets — render Sol + Earth but skip the rest
 const PLANET_NAMES = new Set([
