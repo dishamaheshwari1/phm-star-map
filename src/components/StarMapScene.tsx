@@ -98,7 +98,12 @@ function StarObj({
 
   return (
     <group position={[star.x, star.y, star.z]}>
-      <mesh>
+      <mesh
+        onDoubleClick={(e) => {
+          e.stopPropagation();
+          onFocus([star.x, star.y, star.z]);
+        }}
+      >
         <sphereGeometry args={[r, 24, 24]} />
         <meshStandardMaterial
           ref={matRef}
