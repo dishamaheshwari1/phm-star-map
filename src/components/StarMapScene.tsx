@@ -4,6 +4,8 @@ import { OrbitControls, Html, Line } from "@react-three/drei";
 type OrbitControlsImpl = {
   target: THREE.Vector3;
   update: () => void;
+  enablePan: boolean;
+  zoomToCursor: boolean;
 };
 import * as THREE from "three";
 import starData from "@/data/stellarSystems20ly.json";
@@ -27,11 +29,23 @@ type Props = {
 };
 
 const ALWAYS_LABELED = new Set([
-  "Earth",
   "Sol",
   "Tau Ceti",
   "40 Eridani A",
   "Hail Mary",
+]);
+
+// Solar system planets — render Sol but skip planets entirely
+const PLANET_NAMES = new Set([
+  "Mercury",
+  "Venus",
+  "Earth",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
 ]);
 
 const PROXIMITY_THRESHOLD = 8; // LY-ish units
@@ -69,55 +83,45 @@ function StarLabel({ name }: { name: string }) {
 function StarObj({
   star,
   showLabels,
-  onFocus,
 }: {
   star: Star;
   showLabels: boolean;
-  onFocus: (pos: [number, number, number]) => void;
 }) {
-  const matRef = useRef<THREE.MeshStandardMaterial>(null);
   const showAlways = ALWAYS_LABELED.has(star.name);
-  const tmpVec = useMemo(() => new THREE.Vector3(), []);
   const starPos = useMemo(
     () => new THREE.Vector3(star.x, star.y, star.z),
     [star.x, star.y, star.z],
   );
 
-  useFrame(({ camera }) => {
-    const dist = camera.getWorldPosition(tmpVec).distanceTo(starPos);
-    const close = dist < PROXIMITY_THRESHOLD;
-    if (matRef.current) {
-      // Always-on base glow of 0.5; boosts to ~1.6 when camera is close
-      const target = close ? 1.6 : 0.5;
-      matRef.current.emissiveIntensity +=
-        (target - matRef.current.emissiveIntensity) * 0.15;
-    }
-  });
-
   const r = radiusFromMagnitude(star.magnitude);
+  // Glow halo radius — small and crisp
+  const glowR = r * 2.6;
 
   return (
     <group position={[star.x, star.y, star.z]}>
-      <mesh
-        onDoubleClick={(e) => {
-          e.stopPropagation();
-          onFocus([star.x, star.y, star.z]);
-        }}
-      >
+      {/* Brilliant core — emissive, unaffected by scene lighting */}
+      <mesh>
         <sphereGeometry args={[r, 24, 24]} />
-        <meshStandardMaterial
-          ref={matRef}
+        <meshBasicMaterial color={star.color} toneMapped={false} />
+      </mesh>
+      {/* Crisp emissive halo — additive blending for a point-of-light feel */}
+      <mesh>
+        <sphereGeometry args={[glowR, 16, 16]} />
+        <meshBasicMaterial
           color={star.color}
-          emissive={star.color}
-          emissiveIntensity={0.5}
+          transparent
+          opacity={0.18}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
           toneMapped={false}
         />
       </mesh>
-      {showLabels && (showAlways ? (
-        <StarLabel name={star.name} />
-      ) : (
-        <ProximityLabel name={star.name} starPos={starPos} />
-      ))}
+      {showLabels &&
+        (showAlways ? (
+          <StarLabel name={star.name} />
+        ) : (
+          <ProximityLabel name={star.name} starPos={starPos} />
+        ))}
     </group>
   );
 }
@@ -140,18 +144,15 @@ function ProximityLabel({
   return <StarLabel name={name} />;
 }
 
-function Stars({
-  showLabels,
-  onFocus,
-}: {
-  showLabels: boolean;
-  onFocus: (pos: [number, number, number]) => void;
-}) {
-  const stars = starData as Star[];
+function Stars({ showLabels }: { showLabels: boolean }) {
+  const stars = useMemo(
+    () => (starData as Star[]).filter((s) => !PLANET_NAMES.has(s.name)),
+    [],
+  );
   return (
     <>
       {stars.map((s) => (
-        <StarObj key={s.name} star={s} showLabels={showLabels} onFocus={onFocus} />
+        <StarObj key={s.name} star={s} showLabels={showLabels} />
       ))}
     </>
   );
@@ -182,7 +183,7 @@ function PathAndShip({
 
   useFrame(({ clock }) => {
     if (matRef.current) {
-      const v = (Math.sin(clock.elapsedTime * 4) + 1) / 2; // 0..1
+      const v = (Math.sin(clock.elapsedTime * 4) + 1) / 2;
       matRef.current.opacity = 0.35 + v * 0.65;
     }
   });
@@ -211,7 +212,6 @@ function PathAndShip({
         />
       )}
 
-      {/* Hail Mary ship — small, red, blinking, always on top */}
       <group position={shipPos}>
         <mesh renderOrder={999}>
           <sphereGeometry args={[0.08, 16, 16]} />
@@ -230,21 +230,6 @@ function PathAndShip({
   );
 }
 
-function Earth() {
-  return (
-    <group position={[0.000015, 0, 0]}>
-      <mesh renderOrder={998}>
-        <sphereGeometry args={[0.07, 16, 16]} />
-        <meshBasicMaterial
-          color="#22dd55"
-          depthTest={false}
-          toneMapped={false}
-        />
-      </mesh>
-    </group>
-  );
-}
-
 function ZoomBridge({
   controlsRef,
   zoomRef,
@@ -257,13 +242,10 @@ function ZoomBridge({
     zoomRef.current = (dir: 1 | -1) => {
       const controls = controlsRef.current;
       if (!controls) return;
-      // Move camera along the vector from camera -> orbit target.
-      // dir = 1 (zoom in): step toward the target (positive along that vector).
-      // dir = -1 (zoom out): step away from the target.
-      // Because the target is wherever the user has panned to, this naturally
-      // focuses zoom on the panned area rather than the world origin.
-      const toTarget = new THREE.Vector3()
-        .subVectors(controls.target, camera.position);
+      const toTarget = new THREE.Vector3().subVectors(
+        controls.target,
+        camera.position,
+      );
       const distToTarget = toTarget.length();
       if (distToTarget < 1e-4) return;
       toTarget.normalize();
@@ -284,115 +266,47 @@ function ZoomBridge({
   return null;
 }
 
-function TargetTween({
-  controlsRef,
-  cameraTarget,
-}: {
-  controlsRef: React.RefObject<OrbitControlsImpl>;
-  cameraTarget: [number, number, number];
-}) {
-  const { camera } = useThree();
-  const tweenRef = useRef<{
-    fromTarget: THREE.Vector3;
-    toTarget: THREE.Vector3;
-    fromCam: THREE.Vector3;
-    toCam: THREE.Vector3;
-    start: number;
-    duration: number;
-  } | null>(null);
-  const lastTargetRef = useRef<[number, number, number]>([0, 0, 0]);
-
-  useEffect(() => {
-    const controls = controlsRef.current;
-    if (!controls) return;
-    const [tx, ty, tz] = cameraTarget;
-    const [lx, ly, lz] = lastTargetRef.current;
-    if (tx === lx && ty === ly && tz === lz) return;
-    lastTargetRef.current = cameraTarget;
-
-    const newTarget = new THREE.Vector3(tx, ty, tz);
-    const delta = new THREE.Vector3().subVectors(newTarget, controls.target);
-    tweenRef.current = {
-      fromTarget: controls.target.clone(),
-      toTarget: newTarget,
-      fromCam: camera.position.clone(),
-      toCam: camera.position.clone().add(delta),
-      start: performance.now(),
-      duration: 600,
-    };
-  }, [cameraTarget, camera, controlsRef]);
-
-  useFrame(() => {
-    const tween = tweenRef.current;
-    const controls = controlsRef.current;
-    if (!tween || !controls) return;
-    const t = Math.min(1, (performance.now() - tween.start) / tween.duration);
-    const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    controls.target.lerpVectors(tween.fromTarget, tween.toTarget, e);
-    camera.position.lerpVectors(tween.fromCam, tween.toCam, e);
-    controls.update();
-    if (t >= 1) tweenRef.current = null;
-  });
-
-  return null;
-}
-
-export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: Props) {
+export function StarMapScene({
+  curve,
+  progress,
+  shipPos,
+  showLabels,
+  zoomRef,
+}: Props) {
   const controlsRef = useRef<OrbitControlsImpl>(null);
-  const [cameraTarget, setCameraTarget] = useState<[number, number, number]>([0, 0, 0]);
-
-  const handleFocus = (pos: [number, number, number]) => setCameraTarget(pos);
-  const handleBackgroundReset = () => setCameraTarget([0, 0, 0]);
 
   return (
     <Canvas
       camera={{ position: [14, 10, 18], fov: 60, near: 0.1, far: 1000 }}
       style={{ background: "#000000" }}
-      onDoubleClick={(e) => {
-        // Fires only when no mesh inside the canvas captured the event
-        if (e.target === e.currentTarget) {
-          handleBackgroundReset();
-        }
-      }}
-      onPointerMissed={(e) => {
-        // r3f: triggered on double-click that misses all meshes
-        if ((e as MouseEvent).detail === 2) {
-          handleBackgroundReset();
-        }
-      }}
     >
-      <ambientLight intensity={0.8} />
-      <pointLight position={[0, 0, 0]} intensity={1.2} />
+      <ambientLight intensity={0.4} />
 
       <OrbitControls
         ref={controlsRef as never}
         makeDefault
-        enablePan={true}
         enableRotate={true}
         enableZoom={true}
-        zoomSpeed={0.8}
-        panSpeed={1.0}
+        enablePan={false}
+        zoomToCursor={true}
+        zoomSpeed={0.9}
         rotateSpeed={0.7}
-        screenSpacePanning={true}
-        target={cameraTarget}
         mouseButtons={{
           LEFT: THREE.MOUSE.ROTATE,
           MIDDLE: THREE.MOUSE.DOLLY,
-          RIGHT: THREE.MOUSE.PAN,
+          RIGHT: THREE.MOUSE.ROTATE,
         }}
         touches={{
           ONE: THREE.TOUCH.ROTATE,
-          TWO: THREE.TOUCH.DOLLY_PAN,
+          TWO: THREE.TOUCH.DOLLY_ROTATE,
         }}
       />
-      <ZoomBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} zoomRef={zoomRef} />
-      <TargetTween
+      <ZoomBridge
         controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>}
-        cameraTarget={cameraTarget}
+        zoomRef={zoomRef}
       />
 
-      <Stars showLabels={showLabels} onFocus={handleFocus} />
-      <Earth />
+      <Stars showLabels={showLabels} />
       <PathAndShip
         curve={curve}
         progress={progress}
