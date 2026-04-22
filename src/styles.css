@@ -166,6 +166,9 @@
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
+.map-checkbox-muted:checked::after {
+  border-color: var(--map-muted);
+}
 
 /*
  * Design system definition.

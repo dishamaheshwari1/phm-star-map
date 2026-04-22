@@ -48,8 +48,8 @@ export function StarMapUI({
     <>
       {/* Top Left — Title */}
       <div
-        className="pointer-events-auto absolute left-6 top-6 map-widget"
-        style={{ padding: "0.5rem 0.85rem" }}
+        className="pointer-events-auto absolute left-6 top-6 map-widget w-fit"
+        style={{ padding: "0.6rem 1.1rem", maxWidth: "none" }}
       >
         <div className="font-display-bold whitespace-nowrap text-2xl leading-none tracking-[0.18em]">
           LOCAL STELLAR AREA
@@ -76,16 +76,10 @@ export function StarMapUI({
 
       {/* Bottom Left — Telemetry */}
       <div className="pointer-events-auto absolute bottom-6 left-6 map-widget">
-        <div className="font-display-bold mb-3 text-xs text-white/70">TELEMETRY</div>
+        <div className="font-display-bold mb-3 text-xs" style={{ color: "var(--map-muted)" }}>TELEMETRY</div>
         <div className="space-y-1.5 text-[11px]">
           <div className="font-display">
-            <span className="text-white/50">SYSTEM:</span>{" "}
-            <span className="text-white">
-              {systemName ? systemName.toUpperCase() : "--"}
-            </span>
-          </div>
-          <div className="font-display">
-            <span className="text-white/50">DISTANCE TO NEAREST:</span>{" "}
+            <span style={{ color: "var(--map-muted)" }}>DISTANCE TO NEAREST STAR:</span>{" "}
             <span className="text-white">
               {isFinite(nearestDistance)
                 ? `${nearestDistance.toFixed(2)} LY`
@@ -93,26 +87,32 @@ export function StarMapUI({
             </span>
           </div>
           <div className="font-display">
-            <span className="text-white/50">SHIP:</span>{" "}
+            <span style={{ color: "var(--map-muted)" }}>DISTANCE FROM EARTH:</span>{" "}
+            <span className="text-white">{distanceFromEarth.toFixed(2)} LY</span>
+          </div>
+          <div className="font-display">
+            <span style={{ color: "var(--map-muted)" }}>SHIP:</span>{" "}
             <span className="text-white">
               X {sx.toFixed(2)}, Y {sy.toFixed(2)}, Z {sz.toFixed(2)}
             </span>
           </div>
           <div className="font-display">
-            <span className="text-white/50">DISTANCE FROM EARTH:</span>{" "}
-            <span className="text-white">{distanceFromEarth.toFixed(2)} LY</span>
+            <span style={{ color: "var(--map-muted)" }}>SYSTEM:</span>{" "}
+            <span className="text-white">
+              {systemName ? systemName.toUpperCase() : "--"}
+            </span>
           </div>
         </div>
       </div>
 
       {/* Bottom Right — Controls */}
       <div className="pointer-events-auto absolute bottom-6 right-6 map-widget">
-        <div className="font-display-bold mb-3 text-xs text-white/70">CONTROLS</div>
+        <div className="font-display-bold mb-3 text-xs" style={{ color: "var(--map-muted)" }}>CONTROLS</div>
 
         {/* Progress */}
         <div className="mb-5 min-w-[280px]">
           <div className="font-display mb-2 flex justify-between text-[10px]">
-            <span className="text-white/60">PROGRESS</span>
+            <span style={{ color: "var(--map-muted)" }}>PROGRESS</span>
             <span className="text-white">{progress.toFixed(0)}%</span>
           </div>
           <input
@@ -130,7 +130,7 @@ export function StarMapUI({
         {/* Playback speed */}
         <div className="mb-5">
           <div className="font-display mb-2 flex justify-between text-[10px]">
-            <span className="text-white/60">PLAYBACK SPEED</span>
+            <span style={{ color: "var(--map-muted)" }}>PLAYBACK SPEED</span>
             <span className="text-white">{speed}x</span>
           </div>
           <input
@@ -142,7 +142,7 @@ export function StarMapUI({
             onChange={(e) => onSpeedIndexChange(Number(e.target.value))}
             className="map-slider-speed"
           />
-          <div className="font-display mt-1.5 flex justify-between text-[9px] text-white/40">
+          <div className="font-display mt-1.5 flex justify-between text-[9px]" style={{ color: "var(--map-muted)" }}>
             {SPEED_STOPS.map((s) => (
               <span key={s}>{s}x</span>
             ))}
@@ -151,18 +151,22 @@ export function StarMapUI({
 
         {/* Bottom row: Show labels + Play/Pause */}
         <div className="flex items-center justify-between gap-4">
-          <label className="font-display flex cursor-pointer items-center gap-2.5 text-[11px]">
+          <label
+            className="font-display flex cursor-pointer items-center gap-2.5 text-[11px]"
+            style={{ color: "var(--map-muted)" }}
+          >
             <input
               type="checkbox"
               checked={showLabels}
               onChange={(e) => onShowLabelsChange(e.target.checked)}
-              className="map-checkbox"
+              className="map-checkbox map-checkbox-muted"
             />
             <span>SHOW LABELS</span>
           </label>
           <button
             onClick={onTogglePlay}
-            className="flex h-9 w-9 items-center justify-center bg-transparent border-0 outline-none text-white/90 hover:text-white transition-colors cursor-pointer"
+            className="flex h-9 w-9 items-center justify-center bg-transparent border-0 outline-none transition-colors cursor-pointer hover:opacity-80"
+            style={{ color: "var(--map-muted)" }}
             aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? (

@@ -42,7 +42,7 @@ const PATH_POINTS: [number, number, number][] = [
 function Index() {
   const [progress, setProgress] = useState(0);
   const [showLabels, setShowLabels] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [speedIndex, setSpeedIndex] = useState(1); // 1x default
   const zoomRef = useRef<((dir: 1 | -1) => void) | null>(null);
 
