@@ -55,9 +55,6 @@
 .map-btn {
   position: relative;
   z-index: 50;
-}
-
-.map-btn {
   background-color: #000000;
   border: 3px solid var(--map-border);
   border-radius: 0.75rem;
