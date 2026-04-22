@@ -298,7 +298,7 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
         }}
         touches={{
           ONE: THREE.TOUCH.ROTATE,
-          TWO: THREE.TOUCH.PAN,
+          TWO: THREE.TOUCH.DOLLY_PAN,
         }}
       />
       <ZoomBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} zoomRef={zoomRef} />
