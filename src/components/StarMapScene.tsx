@@ -26,7 +26,13 @@ type Props = {
   shipPos: [number, number, number];
   showLabels: boolean;
   zoomRef: React.MutableRefObject<((dir: 1 | -1) => void) | null>;
+  isPlaying: boolean;
+  speed: number;
+  onProgressChange: (v: number) => void;
 };
+
+// Base duration for 1x speed to traverse 0 -> 100% (in seconds)
+const BASE_DURATION_SEC = 60;
 
 // Solar system planets — render Sol + Earth but skip the rest
 const PLANET_NAMES = new Set([
