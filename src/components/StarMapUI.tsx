@@ -1,7 +1,7 @@
-import { useState, type CSSProperties } from "react";
-import { Plus, Minus } from "lucide-react";
+import { type CSSProperties } from "react";
+import { Plus, Minus, Play, Pause } from "lucide-react";
 
-const SPEED_STOPS = [0.5, 1, 1.5, 2, 3, 4, 5];
+export const SPEED_STOPS = [0.5, 1, 1.5, 2, 3, 4, 5];
 
 type Props = {
   progress: number;
@@ -14,6 +14,10 @@ type Props = {
   systemName: string;
   onZoomIn: () => void;
   onZoomOut: () => void;
+  isPlaying: boolean;
+  onTogglePlay: () => void;
+  speedIndex: number;
+  onSpeedIndexChange: (v: number) => void;
 };
 
 export function StarMapUI({
@@ -27,9 +31,11 @@ export function StarMapUI({
   systemName,
   onZoomIn,
   onZoomOut,
+  isPlaying,
+  onTogglePlay,
+  speedIndex,
+  onSpeedIndexChange,
 }: Props) {
-  const [speedIndex, setSpeedIndex] = useState(1); // 1x default
-
   const speed = SPEED_STOPS[speedIndex];
 
   const progressStyle = {
@@ -75,7 +81,7 @@ export function StarMapUI({
           <div className="font-display">
             <span className="text-white/50">SYSTEM:</span>{" "}
             <span className="text-white">
-              {systemName ? systemName.toUpperCase() : ""}
+              {systemName ? systemName.toUpperCase() : "--"}
             </span>
           </div>
           <div className="font-display">
@@ -107,12 +113,13 @@ export function StarMapUI({
         <div className="mb-5 min-w-[280px]">
           <div className="font-display mb-2 flex justify-between text-[10px]">
             <span className="text-white/60">PROGRESS</span>
-            <span className="text-white">{progress}%</span>
+            <span className="text-white">{progress.toFixed(0)}%</span>
           </div>
           <input
             type="range"
             min={0}
             max={100}
+            step={0.1}
             value={progress}
             onChange={(e) => onProgressChange(Number(e.target.value))}
             className="map-slider-progress"
@@ -132,7 +139,7 @@ export function StarMapUI({
             max={SPEED_STOPS.length - 1}
             step={1}
             value={speedIndex}
-            onChange={(e) => setSpeedIndex(Number(e.target.value))}
+            onChange={(e) => onSpeedIndexChange(Number(e.target.value))}
             className="map-slider-speed"
           />
           <div className="font-display mt-1.5 flex justify-between text-[9px] text-white/40">
@@ -142,16 +149,29 @@ export function StarMapUI({
           </div>
         </div>
 
-        {/* Show labels */}
-        <label className="font-display flex cursor-pointer items-center gap-2.5 text-[11px]">
-          <input
-            type="checkbox"
-            checked={showLabels}
-            onChange={(e) => onShowLabelsChange(e.target.checked)}
-            className="map-checkbox"
-          />
-          <span>SHOW LABELS</span>
-        </label>
+        {/* Bottom row: Show labels + Play/Pause */}
+        <div className="flex items-center justify-between gap-4">
+          <label className="font-display flex cursor-pointer items-center gap-2.5 text-[11px]">
+            <input
+              type="checkbox"
+              checked={showLabels}
+              onChange={(e) => onShowLabelsChange(e.target.checked)}
+              className="map-checkbox"
+            />
+            <span>SHOW LABELS</span>
+          </label>
+          <button
+            onClick={onTogglePlay}
+            className="map-btn flex h-9 w-9 items-center justify-center"
+            aria-label={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? (
+              <Pause size={16} strokeWidth={2.5} />
+            ) : (
+              <Play size={16} strokeWidth={2.5} />
+            )}
+          </button>
+        </div>
       </div>
     </>
   );

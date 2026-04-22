@@ -26,7 +26,13 @@ type Props = {
   shipPos: [number, number, number];
   showLabels: boolean;
   zoomRef: React.MutableRefObject<((dir: 1 | -1) => void) | null>;
+  isPlaying: boolean;
+  speed: number;
+  onProgressChange: (v: number) => void;
 };
+
+// Base duration for 1x speed to traverse 0 -> 100% (in seconds)
+const BASE_DURATION_SEC = 60;
 
 // Solar system planets — render Sol + Earth but skip the rest
 const PLANET_NAMES = new Set([
@@ -262,12 +268,43 @@ function ZoomBridge({
   return null;
 }
 
+function Autoplay({
+  isPlaying,
+  speed,
+  progress,
+  onProgressChange,
+}: {
+  isPlaying: boolean;
+  speed: number;
+  progress: number;
+  onProgressChange: (v: number) => void;
+}) {
+  const progressRef = useRef(progress);
+  useEffect(() => {
+    progressRef.current = progress;
+  }, [progress]);
+
+  useFrame((_, delta) => {
+    if (!isPlaying) return;
+    const inc = (100 / BASE_DURATION_SEC) * speed * delta;
+    let next = progressRef.current + inc;
+    if (next >= 100) next = next - 100;
+    if (next < 0) next = 0;
+    progressRef.current = next;
+    onProgressChange(next);
+  });
+  return null;
+}
+
 export function StarMapScene({
   curve,
   progress,
   shipPos,
   showLabels,
   zoomRef,
+  isPlaying,
+  speed,
+  onProgressChange,
 }: Props) {
   const controlsRef = useRef<OrbitControlsImpl>(null);
 
@@ -310,6 +347,12 @@ export function StarMapScene({
         progress={progress}
         shipPos={shipPos}
         showLabels={showLabels}
+      />
+      <Autoplay
+        isPlaying={isPlaying}
+        speed={speed}
+        progress={progress}
+        onProgressChange={onProgressChange}
       />
     </Canvas>
   );

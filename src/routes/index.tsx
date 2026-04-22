@@ -42,7 +42,14 @@ const PATH_POINTS: [number, number, number][] = [
 function Index() {
   const [progress, setProgress] = useState(0);
   const [showLabels, setShowLabels] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [speedIndex, setSpeedIndex] = useState(1); // 1x default
   const zoomRef = useRef<((dir: 1 | -1) => void) | null>(null);
+
+  const SPEED_STOPS = [0.5, 1, 1.5, 2, 3, 4, 5];
+  const speed = SPEED_STOPS[speedIndex];
+
+  const togglePlay = useCallback(() => setIsPlaying((p) => !p), []);
 
   const curve = useMemo(
     () =>
@@ -106,6 +113,9 @@ function Index() {
           shipPos={shipCoords}
           showLabels={showLabels}
           zoomRef={zoomRef}
+          isPlaying={isPlaying}
+          speed={speed}
+          onProgressChange={setProgress}
         />
       </div>
       <div className="pointer-events-none absolute inset-0 z-[100]">
@@ -120,6 +130,10 @@ function Index() {
           systemName={systemName}
           onZoomIn={onZoomIn}
           onZoomOut={onZoomOut}
+          isPlaying={isPlaying}
+          onTogglePlay={togglePlay}
+          speedIndex={speedIndex}
+          onSpeedIndexChange={setSpeedIndex}
         />
       </div>
     </div>
