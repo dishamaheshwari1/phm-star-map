@@ -24,39 +24,39 @@
   --map-border-strong: #2b6fc4;
   --map-text: #ffffff;
   --map-muted: #6b7a8f;
-  --font-display: "Microgramma", "Courier New", "Lucida Console", Monaco, monospace;
+  --font-display: 'Microgramma', monospace;
 }
 
 .font-display {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: normal;
   letter-spacing: 0.06em;
 }
 
 .font-display-bold {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: bold;
   letter-spacing: 0.1em;
 }
 
 .map-widget {
   background-color: #000000;
   border: 3px solid var(--map-border);
-  border-radius: 1.25rem;
+  border-radius: 0.75rem;
   color: #ffffff;
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: normal;
   letter-spacing: 0.06em;
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1rem;
 }
 
 .map-btn {
   background-color: #000000;
   border: 3px solid var(--map-border);
-  border-radius: 9999px;
+  border-radius: 0.5rem;
   color: var(--map-muted);
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: bold;
   transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
 }
 .map-btn:hover {
