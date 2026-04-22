@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html, Line } from "@react-three/drei";
 type OrbitControlsImpl = {
@@ -119,18 +119,15 @@ function ProximityLabel({
   name: string;
   starPos: THREE.Vector3;
 }) {
-  const groupRef = useRef<THREE.Group>(null);
+  const [visible, setVisible] = useState(false);
   const tmp = useMemo(() => new THREE.Vector3(), []);
   useFrame(({ camera }) => {
-    if (!groupRef.current) return;
     const d = camera.getWorldPosition(tmp).distanceTo(starPos);
-    groupRef.current.visible = d < PROXIMITY_THRESHOLD;
+    const next = d < PROXIMITY_THRESHOLD;
+    setVisible((prev) => (prev !== next ? next : prev));
   });
-  return (
-    <group ref={groupRef}>
-      <StarLabel name={name} />
-    </group>
-  );
+  if (!visible) return null;
+  return <StarLabel name={name} />;
 }
 
 function Stars({ showLabels }: { showLabels: boolean }) {
