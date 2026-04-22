@@ -46,7 +46,10 @@ function StarLabel({ name }: { name: string }) {
   return (
     <Html
       center
-      distanceFactor={18}
+      transform
+      sprite
+      scale={0.6}
+      position={[0, 0.45, 0]}
       style={{
         pointerEvents: "none",
         color: "#ffffff",
@@ -55,7 +58,6 @@ function StarLabel({ name }: { name: string }) {
         fontSize: "11px",
         letterSpacing: "0.08em",
         whiteSpace: "nowrap",
-        transform: "translateY(-18px)",
         textShadow: "0 0 4px rgba(0,0,0,0.9)",
       }}
     >
@@ -83,7 +85,8 @@ function StarObj({
     const dist = camera.getWorldPosition(tmpVec).distanceTo(starPos);
     const close = dist < PROXIMITY_THRESHOLD;
     if (matRef.current) {
-      const target = close ? 1.6 : 0;
+      // Always-on base glow of 0.5; boosts to ~1.6 when camera is close
+      const target = close ? 1.6 : 0.5;
       matRef.current.emissiveIntensity +=
         (target - matRef.current.emissiveIntensity) * 0.15;
     }
@@ -99,7 +102,7 @@ function StarObj({
           ref={matRef}
           color={star.color}
           emissive={star.color}
-          emissiveIntensity={0}
+          emissiveIntensity={0.5}
           toneMapped={false}
         />
       </mesh>
@@ -241,12 +244,14 @@ function ZoomBridge({
     zoomRef.current = (dir: 1 | -1) => {
       const controls = controlsRef.current;
       if (!controls) return;
-      // Zoom toward the current OrbitControls target (where the user is looking)
-      const target = controls.target;
-      const offset = new THREE.Vector3().subVectors(camera.position, target);
-      const factor = dir === 1 ? 0.8 : 1.25;
-      offset.multiplyScalar(factor);
-      camera.position.copy(target).add(offset);
+      // Move camera along its current forward vector so we zoom into wherever the user has panned
+      const forward = new THREE.Vector3();
+      camera.getWorldDirection(forward).normalize();
+      const distToTarget = camera.position.distanceTo(controls.target);
+      const step = distToTarget * (dir === 1 ? 0.2 : -0.25);
+      camera.position.addScaledVector(forward, step);
+      // Keep the orbit target moving with us so further pans/rotates feel natural
+      controls.target.addScaledVector(forward, step);
       controls.update();
     };
     return () => {
