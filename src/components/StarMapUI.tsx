@@ -1,50 +1,78 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
+import { Plus, Minus } from "lucide-react";
 
-const SPEEDS = ["0.5x", "1x", "1.5x", "2x", "3x", "4x", "5x"];
+const SPEED_STOPS = [0.5, 1, 1.5, 2, 3, 4, 5];
 
 export function StarMapUI() {
   const [progress, setProgress] = useState(0);
-  const [speed, setSpeed] = useState("1x");
+  const [speedIndex, setSpeedIndex] = useState(1); // 1x default
   const [showLabels, setShowLabels] = useState(true);
+
+  const speed = SPEED_STOPS[speedIndex];
+
+  const progressStyle = {
+    "--progress": `${progress}%`,
+  } as CSSProperties;
 
   return (
     <>
       {/* Top Left — Title */}
-      <div className="pointer-events-auto absolute left-4 top-4 map-widget px-4 py-3">
-        <div className="text-sm font-display">LOCAL STAR MAP</div>
+      <div className="pointer-events-auto absolute left-6 top-6 map-widget">
+        <div className="font-display-bold text-base">LOCAL STAR MAP</div>
       </div>
 
       {/* Top Right — Zoom controls */}
-      <div className="pointer-events-auto absolute right-4 top-4 flex gap-2">
-        <button className="map-btn h-10 w-10 text-lg font-display" aria-label="Zoom in">
-          +
+      <div className="pointer-events-auto absolute right-6 top-6 flex gap-3">
+        <button
+          className="map-btn flex h-11 w-11 items-center justify-center"
+          aria-label="Zoom in"
+        >
+          <Plus size={18} strokeWidth={2.5} />
         </button>
-        <button className="map-btn h-10 w-10 text-lg font-display" aria-label="Zoom out">
-          −
+        <button
+          className="map-btn flex h-11 w-11 items-center justify-center"
+          aria-label="Zoom out"
+        >
+          <Minus size={18} strokeWidth={2.5} />
         </button>
       </div>
 
       {/* Bottom Left — Telemetry */}
-      <div className="pointer-events-auto absolute bottom-4 left-4 map-widget px-4 py-3 text-xs leading-relaxed">
-        <div className="mb-2 text-[10px] tracking-[0.2em] text-white/60 font-display">
-          // TELEMETRY
+      <div className="pointer-events-auto absolute bottom-6 left-6 map-widget">
+        <div className="font-display-bold mb-3 text-xs text-white/70">
+          TELEMETRY
         </div>
-        <div className="font-display">SYSTEM: SOL</div>
-        <div className="font-display">DISTANCE TO NEAREST: --</div>
-        <div className="font-display">SHIP X: 0.00, Y: 0.00, Z: 0.00</div>
-        <div className="font-display">DISTANCE FROM EARTH: 0.00 LY</div>
+        <div className="space-y-1.5 text-[11px]">
+          <div className="font-display">
+            <span className="text-white/50">SYSTEM:</span>{" "}
+            <span className="text-white">SOL</span>
+          </div>
+          <div className="font-display">
+            <span className="text-white/50">DISTANCE TO NEAREST:</span>{" "}
+            <span className="text-white">--</span>
+          </div>
+          <div className="font-display">
+            <span className="text-white/50">SHIP:</span>{" "}
+            <span className="text-white">X 0.00, Y 0.00, Z 0.00</span>
+          </div>
+          <div className="font-display">
+            <span className="text-white/50">DISTANCE FROM EARTH:</span>{" "}
+            <span className="text-white">0.00 LY</span>
+          </div>
+        </div>
       </div>
 
       {/* Bottom Right — Controls */}
-      <div className="pointer-events-auto absolute bottom-4 right-4 map-widget w-80 px-4 py-3">
-        <div className="mb-2 text-[10px] tracking-[0.2em] text-white/60 font-display">
-          // CONTROLS
+      <div className="pointer-events-auto absolute bottom-6 right-6 map-widget">
+        <div className="font-display-bold mb-3 text-xs text-white/70">
+          CONTROLS
         </div>
 
-        <div className="mb-3">
-          <div className="mb-1 flex justify-between text-[10px] font-display">
-            <span>PROGRESS</span>
-            <span>{progress}%</span>
+        {/* Progress */}
+        <div className="mb-5 min-w-[280px]">
+          <div className="font-display mb-2 flex justify-between text-[10px]">
+            <span className="text-white/60">PROGRESS</span>
+            <span className="text-white">{progress}%</span>
           </div>
           <input
             type="range"
@@ -52,38 +80,42 @@ export function StarMapUI() {
             max={100}
             value={progress}
             onChange={(e) => setProgress(Number(e.target.value))}
-            className="map-slider"
+            className="map-slider-progress"
+            style={progressStyle}
           />
         </div>
 
-        <div className="mb-3">
-          <div className="mb-1 text-[10px] font-display">PLAYBACK SPEED</div>
-          <div className="flex gap-1">
-            {SPEEDS.map((s) => (
-              <button
-                key={s}
-                onClick={() => setSpeed(s)}
-                className="map-btn flex-1 py-1 text-[10px] font-display"
-                style={
-                  speed === s
-                    ? { color: "#fff", borderColor: "#4a7fb8" }
-                    : undefined
-                }
-              >
-                {s}
-              </button>
+        {/* Playback speed */}
+        <div className="mb-5">
+          <div className="font-display mb-2 flex justify-between text-[10px]">
+            <span className="text-white/60">PLAYBACK SPEED</span>
+            <span className="text-white">{speed}x</span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={SPEED_STOPS.length - 1}
+            step={1}
+            value={speedIndex}
+            onChange={(e) => setSpeedIndex(Number(e.target.value))}
+            className="map-slider-speed"
+          />
+          <div className="font-display mt-1.5 flex justify-between text-[9px] text-white/40">
+            {SPEED_STOPS.map((s) => (
+              <span key={s}>{s}x</span>
             ))}
           </div>
         </div>
 
-        <label className="flex cursor-pointer items-center gap-2 text-xs font-display">
+        {/* Show labels */}
+        <label className="font-display flex cursor-pointer items-center gap-2.5 text-[11px]">
           <input
             type="checkbox"
             checked={showLabels}
             onChange={(e) => setShowLabels(e.target.checked)}
             className="map-checkbox"
           />
-          SHOW LABELS
+          <span>SHOW LABELS</span>
         </label>
       </div>
     </>
