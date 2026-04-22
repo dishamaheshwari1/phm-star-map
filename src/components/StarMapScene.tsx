@@ -382,6 +382,7 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
         }}
       />
       <ZoomBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} zoomRef={zoomRef} />
+      <RecenterBridge controlsRef={controlsRef as React.RefObject<OrbitControlsImpl>} />
 
       <Stars showLabels={showLabels} />
       <Earth />
