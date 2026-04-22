@@ -28,14 +28,6 @@ type Props = {
   zoomRef: React.MutableRefObject<((dir: 1 | -1) => void) | null>;
 };
 
-const ALWAYS_LABELED = new Set([
-  "Sol",
-  "Earth",
-  "Tau Ceti",
-  "40 Eridani A",
-  "Hail Mary",
-]);
-
 // Solar system planets — render Sol + Earth but skip the rest
 const PLANET_NAMES = new Set([
   "Mercury",
@@ -48,7 +40,8 @@ const PLANET_NAMES = new Set([
   "Pluto",
 ]);
 
-const PROXIMITY_THRESHOLD = 8; // LY-ish units
+const BRIGHT_MAGNITUDE = 5.0; // absolute magnitude threshold (smaller = brighter)
+const PROXIMITY_THRESHOLD = 3; // light-years
 
 function radiusFromMagnitude(mag: number): number {
   const m = Math.max(-2, Math.min(17, mag));
