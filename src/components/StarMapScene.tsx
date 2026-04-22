@@ -364,6 +364,7 @@ export function StarMapScene({ curve, progress, shipPos, showLabels, zoomRef }: 
 
       <OrbitControls
         ref={controlsRef as never}
+        makeDefault
         enablePan={true}
         enableRotate={true}
         enableZoom={true}
