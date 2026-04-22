@@ -1,91 +1,1271 @@
 [
-  { "name": "Sol", "x": 0.0, "y": 0.0, "z": 0.0, "distance": 0.0, "magnitude": -26.74, "color": "#fff4ea" },
-  { "name": "Proxima Centauri", "x": -1.5478, "y": -1.1844, "z": -3.7728, "distance": 4.246, "magnitude": 11.13, "color": "#ffa860" },
-  { "name": "Alpha Centauri A", "x": -1.6320, "y": -1.3720, "z": -3.8190, "distance": 4.370, "magnitude": -0.01, "color": "#fff4ea" },
-  { "name": "Alpha Centauri B", "x": -1.6322, "y": -1.3718, "z": -3.8191, "distance": 4.370, "magnitude": 1.33, "color": "#ffe3c4" },
-  { "name": "Barnard's Star", "x": -0.0530, "y": -5.9360, "z": 0.4880, "distance": 5.960, "magnitude": 9.54, "color": "#ffb36b" },
-  { "name": "Wolf 359", "x": -7.5000, "y": 2.1600, "z": 0.9600, "distance": 7.860, "magnitude": 13.54, "color": "#ffa45f" },
-  { "name": "Lalande 21185", "x": -6.5200, "y": 1.6400, "z": 4.8900, "distance": 8.310, "magnitude": 7.47, "color": "#ffc084" },
-  { "name": "Sirius A", "x": -1.6114, "y": 8.0690, "z": -2.4730, "distance": 8.600, "magnitude": -1.46, "color": "#d9e4ff" },
-  { "name": "Sirius B", "x": -1.6116, "y": 8.0692, "z": -2.4731, "distance": 8.600, "magnitude": 8.44, "color": "#dde6ff" },
-  { "name": "BL Ceti", "x": 7.5532, "y": 3.4859, "z": -2.6950, "distance": 8.730, "magnitude": 12.73, "color": "#ffa860" },
-  { "name": "UV Ceti", "x": 7.5530, "y": 3.4862, "z": -2.6949, "distance": 8.730, "magnitude": 13.03, "color": "#ffa45f" },
-  { "name": "Ross 154", "x": 1.9000, "y": -8.6600, "z": -3.9100, "distance": 9.690, "magnitude": 10.44, "color": "#ffb36b" },
-  { "name": "Ross 248", "x": 7.3700, "y": -0.6000, "z": 7.1900, "distance": 10.320, "magnitude": 12.29, "color": "#ffa45f" },
-  { "name": "Epsilon Eridani", "x": 6.2000, "y": 8.2900, "z": -1.7200, "distance": 10.500, "magnitude": 3.73, "color": "#ffe0c2" },
-  { "name": "Lacaille 9352", "x": 8.4500, "y": -2.0800, "z": -6.2900, "distance": 10.740, "magnitude": 7.34, "color": "#ffc78f" },
-  { "name": "Ross 128", "x": -10.9900, "y": 0.6200, "z": 0.1500, "distance": 11.010, "magnitude": 11.15, "color": "#ffaf68" },
-  { "name": "EZ Aquarii A", "x": 10.0330, "y": -3.7480, "z": -2.9270, "distance": 11.100, "magnitude": 12.31, "color": "#ffa860" },
-  { "name": "EZ Aquarii B", "x": 10.0332, "y": -3.7478, "z": -2.9271, "distance": 11.100, "magnitude": 13.35, "color": "#ffab63" },
-  { "name": "EZ Aquarii C", "x": 10.0328, "y": -3.7482, "z": -2.9269, "distance": 11.100, "magnitude": 14.26, "color": "#ffa45f" },
-  { "name": "61 Cygni A", "x": 6.4590, "y": -6.1040, "z": 7.1360, "distance": 11.400, "magnitude": 5.20, "color": "#ffd2a8" },
-  { "name": "61 Cygni B", "x": 6.4592, "y": -6.1038, "z": 7.1359, "distance": 11.400, "magnitude": 6.03, "color": "#ffcc9a" },
-  { "name": "Procyon A", "x": -4.8340, "y": 10.3460, "z": 1.0440, "distance": 11.460, "magnitude": 0.34, "color": "#f8f7ff" },
-  { "name": "Procyon B", "x": -4.8341, "y": 10.3461, "z": 1.0440, "distance": 11.460, "magnitude": 10.70, "color": "#dde6ff" },
-  { "name": "Groombridge 34 A", "x": 8.2400, "y": 0.6700, "z": 7.9810, "distance": 11.490, "magnitude": 8.12, "color": "#ffc78f" },
-  { "name": "Groombridge 34 B", "x": 8.2402, "y": 0.6702, "z": 7.9809, "distance": 11.490, "magnitude": 11.06, "color": "#ffb36b" },
-  { "name": "Struve 2398 A", "x": 1.0880, "y": -5.7850, "z": 10.0310, "distance": 11.620, "magnitude": 8.94, "color": "#ffb671" },
-  { "name": "Struve 2398 B", "x": 1.0882, "y": -5.7848, "z": 10.0309, "distance": 11.620, "magnitude": 9.70, "color": "#ffb36b" },
-  { "name": "DX Cancri", "x": -6.3800, "y": 8.4000, "z": 5.3400, "distance": 11.820, "magnitude": 14.81, "color": "#ffa15d" },
-  { "name": "Epsilon Indi A", "x": 5.6900, "y": -3.1700, "z": -9.9300, "distance": 11.870, "magnitude": 4.69, "color": "#ffd2a8" },
-  { "name": "Tau Ceti", "x": 10.2900, "y": 5.0200, "z": -3.2700, "distance": 11.910, "magnitude": 3.50, "color": "#ffead9" },
-  { "name": "Gliese 1061", "x": 4.9100, "y": 6.9800, "z": -8.3900, "distance": 11.980, "magnitude": 13.06, "color": "#ffa860" },
-  { "name": "YZ Ceti", "x": 11.0100, "y": 3.5800, "z": -3.5400, "distance": 12.110, "magnitude": 12.03, "color": "#ffaf68" },
-  { "name": "Luyten's Star", "x": -4.5600, "y": 11.4300, "z": 1.1300, "distance": 12.350, "magnitude": 9.87, "color": "#ffb36b" },
-  { "name": "Teegarden's Star", "x": 8.6700, "y": 8.2000, "z": 3.6300, "distance": 12.500, "magnitude": 15.40, "color": "#ff9f5c" },
-  { "name": "Kapteyn's Star", "x": 1.8800, "y": 8.9000, "z": -9.0800, "distance": 12.830, "magnitude": 8.85, "color": "#ffc78f" },
-  { "name": "Lacaille 8760", "x": 11.2500, "y": -5.3700, "z": -3.1700, "distance": 12.870, "magnitude": 6.68, "color": "#ffcc99" },
-  { "name": "SCR 1845-6357 A", "x": 1.1100, "y": -5.6400, "z": -11.8000, "distance": 13.130, "magnitude": 17.34, "color": "#ff9750" },
-  { "name": "Kruger 60 A", "x": 6.4490, "y": -2.7410, "z": 11.1180, "distance": 13.150, "magnitude": 9.79, "color": "#ffb671" },
-  { "name": "Kruger 60 B", "x": 6.4492, "y": -2.7408, "z": 11.1179, "distance": 13.150, "magnitude": 11.41, "color": "#ffb36b" },
-  { "name": "DEN 1048-3956", "x": -9.6200, "y": 3.1200, "z": -8.4700, "distance": 13.170, "magnitude": 17.37, "color": "#ff9750" },
-  { "name": "Wolf 1061", "x": -5.1800, "y": -12.4200, "z": -3.0300, "distance": 13.820, "magnitude": 10.09, "color": "#ffb36b" },
-  { "name": "van Maanen's Star", "x": 13.7300, "y": 2.9900, "z": 1.3300, "distance": 14.120, "magnitude": 12.39, "color": "#dde6ff" },
-  { "name": "Wolf 424 A", "x": -13.7900, "y": -2.0600, "z": 2.2600, "distance": 14.130, "magnitude": 12.56, "color": "#ffa860" },
-  { "name": "Wolf 424 B", "x": -13.7898, "y": -2.0598, "z": 2.2599, "distance": 14.130, "magnitude": 13.18, "color": "#ffa45f" },
-  { "name": "Gliese 1", "x": 11.2700, "y": 0.2600, "z": -8.6000, "distance": 14.170, "magnitude": 8.56, "color": "#ffc084" },
-  { "name": "Gliese 674", "x": -1.4000, "y": -10.0400, "z": -10.8200, "distance": 14.840, "magnitude": 9.38, "color": "#ffbb82" },
-  { "name": "Gliese 687", "x": -0.5600, "y": -5.4500, "z": 13.7900, "distance": 14.840, "magnitude": 9.15, "color": "#ffb671" },
-  { "name": "Gliese 1245 A", "x": 5.1030, "y": -9.3900, "z": 10.4710, "distance": 14.970, "magnitude": 13.45, "color": "#ffa860" },
-  { "name": "Gliese 1245 B", "x": 5.1032, "y": -9.3898, "z": 10.4709, "distance": 14.970, "magnitude": 14.01, "color": "#ffa45f" },
-  { "name": "Gliese 1245 C", "x": 5.1028, "y": -9.3902, "z": 10.4711, "distance": 14.970, "magnitude": 16.10, "color": "#ff9750" },
-  { "name": "Gliese 876", "x": 14.1500, "y": -4.2400, "z": -3.7500, "distance": 15.240, "magnitude": 10.17, "color": "#ffb36b" },
-  { "name": "Gliese 412 A", "x": -11.1300, "y": 2.7800, "z": 10.8500, "distance": 15.750, "magnitude": 8.77, "color": "#ffc78f" },
-  { "name": "Gliese 412 B", "x": -11.1298, "y": 2.7802, "z": 10.8499, "distance": 15.750, "magnitude": 14.48, "color": "#ffa45f" },
-  { "name": "Gliese 1002", "x": 15.6900, "y": 0.4300, "z": -2.0800, "distance": 15.840, "magnitude": 13.84, "color": "#ffa860" },
-  { "name": "Groombridge 1618", "x": -9.1700, "y": 4.7200, "z": 12.0800, "distance": 15.890, "magnitude": 6.60, "color": "#ffcf9d" },
-  { "name": "Gliese 338 A", "x": -7.3400, "y": 6.4700, "z": 12.6900, "distance": 16.030, "magnitude": 8.01, "color": "#ffd0a3" },
-  { "name": "Gliese 338 B", "x": -7.3398, "y": 6.4702, "z": 12.6899, "distance": 16.030, "magnitude": 8.27, "color": "#ffca96" },
-  { "name": "Gliese 832", "x": 8.4500, "y": -6.2800, "z": -12.2000, "distance": 16.160, "magnitude": 8.67, "color": "#ffc78f" },
-  { "name": "AD Leonis", "x": -13.7800, "y": 6.4800, "z": 5.4500, "distance": 16.200, "magnitude": 9.43, "color": "#ffb36b" },
-  { "name": "40 Eridani A", "x": 7.1760, "y": 14.5300, "z": -2.1740, "distance": 16.340, "magnitude": 4.43, "color": "#ffe3c4" },
-  { "name": "40 Eridani B", "x": 7.1762, "y": 14.5302, "z": -2.1741, "distance": 16.340, "magnitude": 9.52, "color": "#dde6ff" },
-  { "name": "40 Eridani C", "x": 7.1758, "y": 14.5298, "z": -2.1739, "distance": 16.340, "magnitude": 11.17, "color": "#ffaf68" },
-  { "name": "EV Lacertae", "x": 11.1900, "y": -3.6900, "z": 11.5700, "distance": 16.530, "magnitude": 10.09, "color": "#ffb36b" },
-  { "name": "Gliese 682", "x": -0.9400, "y": -11.8400, "z": -11.5800, "distance": 16.580, "magnitude": 10.95, "color": "#ffb36b" },
-  { "name": "70 Ophiuchi A", "x": 0.3180, "y": -16.5580, "z": 0.8100, "distance": 16.580, "magnitude": 4.03, "color": "#ffe5cd" },
-  { "name": "70 Ophiuchi B", "x": 0.3182, "y": -16.5578, "z": 0.8099, "distance": 16.580, "magnitude": 6.00, "color": "#ffd8b1" },
-  { "name": "Altair", "x": 7.7300, "y": -14.6000, "z": 2.5800, "distance": 16.730, "magnitude": 0.76, "color": "#eef3ff" },
-  { "name": "Stein 2051 A", "x": 3.4390, "y": 8.4290, "z": 15.1830, "distance": 17.690, "magnitude": 10.09, "color": "#ffaf68" },
-  { "name": "Stein 2051 B", "x": 3.4392, "y": 8.4292, "z": 15.1829, "distance": 17.690, "magnitude": 12.44, "color": "#dde6ff" },
-  { "name": "Gliese 729", "x": 3.4800, "y": -15.9300, "z": -7.2000, "distance": 17.840, "magnitude": 10.43, "color": "#ffb36b" },
-  { "name": "Gliese 393", "x": -16.4500, "y": 6.9800, "z": 0.1680, "distance": 17.870, "magnitude": 9.66, "color": "#ffc084" },
-  { "name": "Gliese 526", "x": -15.6000, "y": -7.4800, "z": 4.6000, "distance": 17.920, "magnitude": 8.46, "color": "#ffc78f" },
-  { "name": "Gliese 251", "x": -3.4920, "y": 14.5680, "z": 10.0940, "distance": 18.060, "magnitude": 10.07, "color": "#ffb671" },
-  { "name": "Gliese 1005 A", "x": 17.3870, "y": 1.1740, "z": -5.0470, "distance": 18.160, "magnitude": 11.49, "color": "#ffb671" },
-  { "name": "Gliese 1005 B", "x": 17.3872, "y": 1.1742, "z": -5.0471, "distance": 18.160, "magnitude": 13.10, "color": "#ffb36b" },
-  { "name": "HD 36395", "x": 2.3230, "y": 18.3000, "z": 1.2700, "distance": 18.480, "magnitude": 7.97, "color": "#ffc78f" },
-  { "name": "Sigma Draconis", "x": 2.4700, "y": -5.9900, "z": 17.6300, "distance": 18.780, "magnitude": 4.67, "color": "#ffe5cd" },
-  { "name": "Gliese 229 A", "x": -0.7500, "y": 17.4300, "z": -6.9900, "distance": 18.800, "magnitude": 8.14, "color": "#ffc78f" },
-  { "name": "Gliese 570 A", "x": -12.8070, "y": -12.3290, "z": -6.9750, "distance": 19.130, "magnitude": 5.72, "color": "#ffd8b1" },
-  { "name": "Gliese 570 B", "x": -12.8068, "y": -12.3288, "z": -6.9751, "distance": 19.130, "magnitude": 11.40, "color": "#ffc78f" },
-  { "name": "Gliese 570 C", "x": -12.8072, "y": -12.3292, "z": -6.9749, "distance": 19.130, "magnitude": 13.70, "color": "#ffb671" },
-  { "name": "Gliese 754", "x": 6.0900, "y": -17.4800, "z": -5.3600, "distance": 19.310, "magnitude": 12.23, "color": "#ffaf68" },
-  { "name": "Eta Cassiopeiae A", "x": 10.1010, "y": 2.1960, "z": 16.4460, "distance": 19.420, "magnitude": 3.44, "color": "#fff6ee" },
-  { "name": "Eta Cassiopeiae B", "x": 10.1012, "y": 2.1962, "z": 16.4459, "distance": 19.420, "magnitude": 7.51, "color": "#ffcc9a" },
-  { "name": "36 Ophiuchi A", "x": -3.3300, "y": -17.1270, "z": -8.7560, "distance": 19.520, "magnitude": 5.07, "color": "#ffe3c4" },
-  { "name": "36 Ophiuchi B", "x": -3.3298, "y": -17.1268, "z": -8.7561, "distance": 19.520, "magnitude": 5.09, "color": "#ffe3c4" },
-  { "name": "36 Ophiuchi C", "x": -3.3302, "y": -17.1272, "z": -8.7559, "distance": 19.520, "magnitude": 8.74, "color": "#ffc78f" },
-  { "name": "82 Eridani", "x": 9.3400, "y": 10.9700, "z": -13.4500, "distance": 19.710, "magnitude": 4.26, "color": "#ffefe0" },
-  { "name": "Delta Pavonis", "x": 4.2900, "y": -6.7800, "z": -18.2400, "distance": 19.920, "magnitude": 3.56, "color": "#ffead9" }
+  {
+    "name": "Sol",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0,
+    "distance": 0.0,
+    "magnitude": 4.83,
+    "color": "#fff2d5"
+  },
+  {
+    "name": "Proxima Centauri",
+    "x": -1.548642,
+    "y": -1.183697,
+    "z": -3.772664,
+    "distance": 4.24646,
+    "magnitude": 15.58,
+    "color": "#ffb371"
+  },
+  {
+    "name": "Alpha Centauri A",
+    "x": -1.625214,
+    "y": -1.356911,
+    "z": -3.793195,
+    "distance": 4.34406,
+    "magnitude": 4.7,
+    "color": "#fff3e7"
+  },
+  {
+    "name": "Alpha Centauri B",
+    "x": -1.625214,
+    "y": -1.356911,
+    "z": -3.793195,
+    "distance": 4.34406,
+    "magnitude": 6.5,
+    "color": "#ffe4ce"
+  },
+  {
+    "name": "GJ 699",
+    "x": -0.057198,
+    "y": -5.942238,
+    "z": 0.49268,
+    "distance": 5.962902,
+    "magnitude": 14.29,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "WISE J104915.57-531906.1 A",
+    "x": -3.701218,
+    "y": 1.179159,
+    "z": -5.215169,
+    "distance": 6.502878,
+    "magnitude": 22.0,
+    "color": "#ff6100"
+  },
+  {
+    "name": "WISE J104915.57-531906.1 B",
+    "x": -3.701218,
+    "y": 1.179159,
+    "z": -5.215169,
+    "distance": 6.502878,
+    "magnitude": 23.82,
+    "color": "#ff5b00"
+  },
+  {
+    "name": "WISE J085510.83-071442.5",
+    "x": -5.099489,
+    "y": 5.321232,
+    "z": -0.936819,
+    "distance": 7.42953,
+    "magnitude": 44.61,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 406",
+    "x": -7.499001,
+    "y": 2.135695,
+    "z": 0.957752,
+    "distance": 7.855794,
+    "magnitude": 16.42,
+    "color": "#ffad66"
+  },
+  {
+    "name": "GJ 411",
+    "x": -6.518224,
+    "y": 1.645617,
+    "z": 4.875161,
+    "distance": 8.304366,
+    "magnitude": 10.4,
+    "color": "#ffc18e"
+  },
+  {
+    "name": "Sirius A",
+    "x": -1.612512,
+    "y": 8.078244,
+    "z": -2.473461,
+    "distance": 8.600943,
+    "magnitude": 0.65,
+    "color": "#cddcff"
+  },
+  {
+    "name": "Sirius B",
+    "x": -1.632498,
+    "y": 8.17979,
+    "z": -2.505773,
+    "distance": 8.709357,
+    "magnitude": 11.42,
+    "color": "#a4c2ff"
+  },
+  {
+    "name": "GJ 65 B",
+    "x": 7.536134,
+    "y": 3.477663,
+    "z": -2.688408,
+    "distance": 8.724391,
+    "magnitude": 13.68,
+    "color": "#ffad66"
+  },
+  {
+    "name": "GJ 65 A",
+    "x": 7.661797,
+    "y": 3.535632,
+    "z": -2.733333,
+    "distance": 8.869889,
+    "magnitude": 13.34,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "GJ 729",
+    "x": 1.915382,
+    "y": -8.669233,
+    "z": -3.922667,
+    "distance": 9.706267,
+    "magnitude": 13.99,
+    "color": "#ffba81"
+  },
+  {
+    "name": "GJ 905",
+    "x": 7.368998,
+    "y": -0.582539,
+    "z": 7.180961,
+    "distance": 10.305711,
+    "magnitude": 15.41,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "Epsilon Eridani",
+    "x": 6.201102,
+    "y": 8.297724,
+    "z": -1.725704,
+    "distance": 10.501617,
+    "magnitude": 6.18,
+    "color": "#ffe4ce"
+  },
+  {
+    "name": "GJ 887",
+    "x": 8.452682,
+    "y": -2.028698,
+    "z": -6.280274,
+    "distance": 10.724052,
+    "magnitude": 9.73,
+    "color": "#ffc89b"
+  },
+  {
+    "name": "GJ 447",
+    "x": -10.990656,
+    "y": 0.587982,
+    "z": 0.153519,
+    "distance": 11.007443,
+    "magnitude": 14.22,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "EZ Aqr A",
+    "x": 10.187982,
+    "y": -3.780803,
+    "z": -2.972833,
+    "distance": 11.266196,
+    "magnitude": 14.36,
+    "color": "#ffad66"
+  },
+  {
+    "name": "EZ Aqr C",
+    "x": 10.187982,
+    "y": -3.780803,
+    "z": -2.972833,
+    "distance": 11.266196,
+    "magnitude": 15.27,
+    "color": "#ffa85a"
+  },
+  {
+    "name": "EZ Aqr B",
+    "x": 10.187982,
+    "y": -3.780803,
+    "z": -2.972833,
+    "distance": 11.266196,
+    "magnitude": 14.36,
+    "color": "#ffad66"
+  },
+  {
+    "name": "GJ 820 B",
+    "x": 6.477743,
+    "y": -6.092872,
+    "z": 7.138882,
+    "distance": 11.403854,
+    "magnitude": 8.27,
+    "color": "#ffd5b2"
+  },
+  {
+    "name": "GJ 820 A",
+    "x": 6.476723,
+    "y": -6.093016,
+    "z": 7.140353,
+    "distance": 11.404273,
+    "magnitude": 7.45,
+    "color": "#ffdbbe"
+  },
+  {
+    "name": "Procyon B",
+    "x": -4.792301,
+    "y": 10.359379,
+    "z": 1.043789,
+    "distance": 11.461779,
+    "magnitude": 14.07,
+    "color": "#e1e8ff"
+  },
+  {
+    "name": "Procyon A",
+    "x": -4.792301,
+    "y": 10.359379,
+    "z": 1.043789,
+    "distance": 11.461779,
+    "magnitude": 3.55,
+    "color": "#fffbff"
+  },
+  {
+    "name": "Struve 2398 A",
+    "x": 1.076688,
+    "y": -5.707453,
+    "z": 9.914905,
+    "distance": 11.490849,
+    "magnitude": 11.2,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "Struve 2398 B",
+    "x": 1.076801,
+    "y": -5.708045,
+    "z": 9.91466,
+    "distance": 11.490942,
+    "magnitude": 12.02,
+    "color": "#ffba81"
+  },
+  {
+    "name": "GJ 15 A",
+    "x": 8.327531,
+    "y": 0.671952,
+    "z": 8.074929,
+    "distance": 11.619112,
+    "magnitude": 10.3,
+    "color": "#ffc493"
+  },
+  {
+    "name": "GJ 15 B",
+    "x": 8.327192,
+    "y": 0.673691,
+    "z": 8.075854,
+    "distance": 11.619613,
+    "magnitude": 14.17,
+    "color": "#ffba81"
+  },
+  {
+    "name": "GJ 1111",
+    "x": -6.340729,
+    "y": 8.27832,
+    "z": 5.261273,
+    "distance": 11.679744,
+    "magnitude": 16.92,
+    "color": "#ffab60"
+  },
+  {
+    "name": "Epsilon Indi A",
+    "x": 5.676607,
+    "y": -3.163141,
+    "z": -9.929573,
+    "distance": 11.867003,
+    "magnitude": 6.84,
+    "color": "#ffdec3"
+  },
+  {
+    "name": "Tau Ceti",
+    "x": 10.29412,
+    "y": 5.022792,
+    "z": -3.270078,
+    "distance": 11.91179,
+    "magnitude": 5.7,
+    "color": "#ffebda"
+  },
+  {
+    "name": "GJ 1061",
+    "x": 5.022472,
+    "y": 6.913701,
+    "z": -8.401788,
+    "distance": 11.983928,
+    "magnitude": 15.5,
+    "color": "#ffb371"
+  },
+  {
+    "name": "Epsilon Indi Ba",
+    "x": 5.776208,
+    "y": -3.196029,
+    "z": -10.081435,
+    "distance": 12.050498,
+    "magnitude": 23.55,
+    "color": "#ff5900"
+  },
+  {
+    "name": "Epsilon Indi Bb",
+    "x": 5.776208,
+    "y": -3.196029,
+    "z": -10.081435,
+    "distance": 12.050498,
+    "magnitude": 26.44,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 54.1",
+    "x": 11.016995,
+    "y": 3.607988,
+    "z": -3.543407,
+    "distance": 12.12219,
+    "magnitude": 14.99,
+    "color": "#ffb577"
+  },
+  {
+    "name": "Luyten's Star",
+    "x": -4.577768,
+    "y": 11.413665,
+    "z": 1.121188,
+    "distance": 12.348473,
+    "magnitude": 12.96,
+    "color": "#ffba81"
+  },
+  {
+    "name": "Teegarden's Star",
+    "x": 8.708162,
+    "y": 8.197449,
+    "z": 3.62546,
+    "distance": 12.496968,
+    "magnitude": 16.94,
+    "color": "#ffab60"
+  },
+  {
+    "name": "Kapteyn's Star",
+    "x": 1.891083,
+    "y": 8.866355,
+    "z": -9.07966,
+    "distance": 12.83077,
+    "magnitude": 10.83,
+    "color": "#ffc697"
+  },
+  {
+    "name": "GJ 825",
+    "x": 7.641413,
+    "y": -6.573809,
+    "z": -8.125527,
+    "distance": 12.947214,
+    "magnitude": 8.62,
+    "color": "#ffd5b2"
+  },
+  {
+    "name": "GJ 860 B",
+    "x": 6.418595,
+    "y": -2.72564,
+    "z": 11.02826,
+    "distance": 13.047988,
+    "magnitude": 11.9,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "SCR J1845-6357 A",
+    "x": 1.12353,
+    "y": -5.623719,
+    "z": -11.737681,
+    "distance": 13.063755,
+    "magnitude": 16.01,
+    "color": "#ff9f45"
+  },
+  {
+    "name": "SCR J1845-6357 B",
+    "x": 1.120858,
+    "y": -5.623707,
+    "z": -11.737943,
+    "distance": 13.063755,
+    "magnitude": 29.65,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 860 A",
+    "x": 6.43343,
+    "y": -2.731848,
+    "z": 11.053635,
+    "distance": 13.078029,
+    "magnitude": 11.92,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "DENIS J104814.6-395606",
+    "x": -9.623352,
+    "y": 3.116813,
+    "z": -8.469768,
+    "distance": 13.193196,
+    "magnitude": 18.84,
+    "color": "#ff9f45"
+  },
+  {
+    "name": "GJ 234 A",
+    "x": -1.715416,
+    "y": 13.297545,
+    "z": -0.659739,
+    "distance": 13.423957,
+    "magnitude": 11.51,
+    "color": "#ffb779"
+  },
+  {
+    "name": "GJ 234 B",
+    "x": -1.714794,
+    "y": 13.297658,
+    "z": -0.659079,
+    "distance": 13.423957,
+    "magnitude": 13.91,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "UGPS J072227.51-054031.2",
+    "x": -4.705805,
+    "y": 12.511606,
+    "z": -1.328187,
+    "distance": 13.433129,
+    "magnitude": 34.02,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 628",
+    "x": -5.229297,
+    "y": -12.671414,
+    "z": -3.081158,
+    "distance": 14.050047,
+    "magnitude": 11.96,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "van Maanen's Star",
+    "x": 13.688479,
+    "y": 2.983755,
+    "z": 1.318542,
+    "distance": 14.071809,
+    "magnitude": 14.21,
+    "color": "#f9f6ff"
+  },
+  {
+    "name": "GJ 473 A",
+    "x": -13.790995,
+    "y": -2.015451,
+    "z": 2.212991,
+    "distance": 14.112084,
+    "magnitude": 13.05,
+    "color": "#ffad66"
+  },
+  {
+    "name": "GJ 1",
+    "x": 11.262178,
+    "y": 0.271954,
+    "z": -8.60305,
+    "distance": 14.174734,
+    "magnitude": 10.35,
+    "color": "#ffc493"
+  },
+  {
+    "name": "GJ 83.1",
+    "x": 12.291827,
+    "y": 7.113572,
+    "z": 3.290258,
+    "distance": 14.577988,
+    "magnitude": 14.84,
+    "color": "#ffb577"
+  },
+  {
+    "name": "GJ 473 B",
+    "x": -14.262532,
+    "y": -2.08441,
+    "z": 2.28859,
+    "distance": 14.594596,
+    "magnitude": 12.99,
+    "color": "#ffad66"
+  },
+  {
+    "name": "GJ 687",
+    "x": -0.562793,
+    "y": -5.449801,
+    "z": 13.791039,
+    "distance": 14.839468,
+    "magnitude": 10.87,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "GJ 674",
+    "x": -1.382234,
+    "y": -10.05162,
+    "z": -10.84214,
+    "distance": 14.849163,
+    "magnitude": 11.13,
+    "color": "#ffc18e"
+  },
+  {
+    "name": "WISE J163940.86-684744.6",
+    "x": -1.843884,
+    "y": -5.044809,
+    "z": -13.847044,
+    "distance": 14.852294,
+    "magnitude": 38.71,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 3622",
+    "x": -13.870844,
+    "y": 4.492145,
+    "z": -2.924723,
+    "distance": 14.870564,
+    "magnitude": 17.02,
+    "color": "#ffab60"
+  },
+  {
+    "name": "GJ 440",
+    "x": -6.416302,
+    "y": 0.397311,
+    "z": -13.68814,
+    "distance": 15.122565,
+    "magnitude": 13.13,
+    "color": "#dfe7ff"
+  },
+  {
+    "name": "GJ 1245 B",
+    "x": 5.177833,
+    "y": -9.543561,
+    "z": 10.637431,
+    "distance": 15.200146,
+    "magnitude": 16.17,
+    "color": "#ffad66"
+  },
+  {
+    "name": "WISEPA J174124.26+255319.5",
+    "x": -1.109972,
+    "y": -13.647404,
+    "z": 6.644776,
+    "distance": 15.219616,
+    "magnitude": 33.74,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 876 AB",
+    "x": 14.163771,
+    "y": -4.242839,
+    "z": -3.75965,
+    "distance": 15.256116,
+    "magnitude": 12.72,
+    "color": "#ffba81"
+  },
+  {
+    "name": "G 208-44 Ab",
+    "x": 5.21191,
+    "y": -9.608336,
+    "z": 10.70964,
+    "distance": 15.302958,
+    "magnitude": 16.18,
+    "color": "#ffa24c"
+  },
+  {
+    "name": "G 208-44 Aa",
+    "x": 5.21191,
+    "y": -9.608336,
+    "z": 10.70964,
+    "distance": 15.302958,
+    "magnitude": 14.36,
+    "color": "#ffad66"
+  },
+  {
+    "name": "GJ 3618",
+    "x": -7.181243,
+    "y": 2.460751,
+    "z": -13.809756,
+    "distance": 15.758646,
+    "magnitude": 15.87,
+    "color": "#ffb371"
+  },
+  {
+    "name": "GJ 1002",
+    "x": 15.662372,
+    "y": 0.458378,
+    "z": -2.075805,
+    "distance": 15.805979,
+    "magnitude": 15.92,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "DENIS-P J0255-4700",
+    "x": 7.816569,
+    "y": 7.488487,
+    "z": -11.614969,
+    "distance": 15.877143,
+    "magnitude": 26.01,
+    "color": "#ff5d00"
+  },
+  {
+    "name": "GJ 380",
+    "x": -9.187748,
+    "y": 4.715188,
+    "z": 12.070911,
+    "distance": 15.885673,
+    "magnitude": 8.07,
+    "color": "#ffd8b8"
+  },
+  {
+    "name": "GJ 412 A",
+    "x": -11.269818,
+    "y": 2.738522,
+    "z": 11.017786,
+    "distance": 15.996872,
+    "magnitude": 10.26,
+    "color": "#ffc697"
+  },
+  {
+    "name": "GJ 412 B",
+    "x": -11.274297,
+    "y": 2.737521,
+    "z": 11.019755,
+    "distance": 16.001212,
+    "magnitude": 16.31,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "GJ 388|GJ 388 A",
+    "x": -13.791566,
+    "y": 6.46079,
+    "z": 5.504063,
+    "distance": 16.193943,
+    "magnitude": 10.9,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "GJ 832",
+    "x": 8.529588,
+    "y": -6.336652,
+    "z": -12.228996,
+    "distance": 16.200475,
+    "magnitude": 10.16,
+    "color": "#ffc18e"
+  },
+  {
+    "name": "GJ 1005 A",
+    "x": 15.588565,
+    "y": 1.053737,
+    "z": -4.519658,
+    "distance": 16.264717,
+    "magnitude": 12.09,
+    "color": "#ffba81"
+  },
+  {
+    "name": "GJ 1005 B",
+    "x": 15.588565,
+    "y": 1.053737,
+    "z": -4.519658,
+    "distance": 16.264717,
+    "magnitude": 13.91,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "GJ 682",
+    "x": -1.168448,
+    "y": -11.626024,
+    "z": -11.411829,
+    "distance": 16.332775,
+    "magnitude": 13.41,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "40 Eridani B",
+    "x": 7.138764,
+    "y": 14.527584,
+    "z": -2.180761,
+    "distance": 16.333045,
+    "magnitude": 11.07,
+    "color": "#b2cbff"
+  },
+  {
+    "name": "40 Eridani A",
+    "x": 7.147609,
+    "y": 14.530951,
+    "z": -2.180292,
+    "distance": 16.339845,
+    "magnitude": 5.89,
+    "color": "#ffe8d5"
+  },
+  {
+    "name": "40 Eridani C",
+    "x": 7.147658,
+    "y": 14.544958,
+    "z": -2.1828,
+    "distance": 16.352658,
+    "magnitude": 13.83,
+    "color": "#ffb577"
+  },
+  {
+    "name": "GJ 873",
+    "x": 11.189545,
+    "y": -3.699976,
+    "z": 11.513733,
+    "distance": 16.476098,
+    "magnitude": 11.82,
+    "color": "#ffba81"
+  },
+  {
+    "name": "GJ 1116 B",
+    "x": -10.973383,
+    "y": 11.143738,
+    "z": 5.619078,
+    "distance": 16.618426,
+    "magnitude": 13.95,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "GJ 702 B",
+    "x": 0.396584,
+    "y": -16.632337,
+    "z": 0.724702,
+    "distance": 16.652841,
+    "magnitude": 7.41,
+    "color": "#ffdec3"
+  },
+  {
+    "name": "GJ 702 A",
+    "x": 0.396746,
+    "y": -16.656904,
+    "z": 0.726071,
+    "distance": 16.677441,
+    "magnitude": 5.64,
+    "color": "#ffe9d7"
+  },
+  {
+    "name": "Altair",
+    "x": 7.682573,
+    "y": -14.636553,
+    "z": 2.578935,
+    "distance": 16.730258,
+    "magnitude": 2.18,
+    "color": "#dde6ff"
+  },
+  {
+    "name": "GJ 1116 A",
+    "x": -11.093145,
+    "y": 11.265164,
+    "z": 5.680472,
+    "distance": 16.799689,
+    "magnitude": 13.41,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "WISEPC J150649.97+702736.0",
+    "x": -3.857089,
+    "y": -4.09342,
+    "z": 15.848903,
+    "distance": 16.817282,
+    "magnitude": 30.17,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 3379",
+    "x": -0.004731,
+    "y": 16.967171,
+    "z": 0.802043,
+    "distance": 16.986117,
+    "magnitude": 13.46,
+    "color": "#ffba81"
+  },
+  {
+    "name": "DENIS J081730.0-615520",
+    "x": -4.51885,
+    "y": 6.606161,
+    "z": -15.000013,
+    "distance": 17.001816,
+    "magnitude": 29.42,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 445",
+    "x": -3.355064,
+    "y": 0.179389,
+    "z": 16.804207,
+    "distance": 17.136803,
+    "magnitude": 12.25,
+    "color": "#ffba81"
+  },
+  {
+    "name": "2MASS J09393548-2448279 A",
+    "x": -12.761547,
+    "y": 8.969673,
+    "z": -7.210067,
+    "distance": 17.184214,
+    "magnitude": 27.23,
+    "color": "#ff4400"
+  },
+  {
+    "name": "2MASS J09393548-2448279 [B]",
+    "x": -12.761547,
+    "y": 8.969673,
+    "z": -7.210067,
+    "distance": 17.184214,
+    "magnitude": 27.23,
+    "color": "#ff4400"
+  },
+  {
+    "name": "WISEA J154045.67-510139.3",
+    "x": -6.236974,
+    "y": -8.972218,
+    "z": -13.50733,
+    "distance": 17.373788,
+    "magnitude": 16.57,
+    "color": "#ffad66"
+  },
+  {
+    "name": "GJ 3323",
+    "x": 4.361026,
+    "y": 16.846832,
+    "z": -2.120864,
+    "distance": 17.530897,
+    "magnitude": 14.33,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "GJ 526",
+    "x": -15.339416,
+    "y": -7.628094,
+    "z": 4.553533,
+    "distance": 17.726256,
+    "magnitude": 9.74,
+    "color": "#ffc493"
+  },
+  {
+    "name": "GJ 169.1 B",
+    "x": 3.502415,
+    "y": 8.588357,
+    "z": 15.417689,
+    "distance": 17.992551,
+    "magnitude": 13.68,
+    "color": "#f0f0ff"
+  },
+  {
+    "name": "GJ 169.1 A",
+    "x": 3.503836,
+    "y": 8.589827,
+    "z": 15.419929,
+    "distance": 17.99545,
+    "magnitude": 13.49,
+    "color": "#ffb577"
+  },
+  {
+    "name": "2MASS J11145133-2618235",
+    "x": -15.999517,
+    "y": 3.196061,
+    "z": -8.066337,
+    "distance": 18.200691,
+    "magnitude": 32.33,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 251",
+    "x": -3.607026,
+    "y": 14.79647,
+    "z": 9.991318,
+    "distance": 18.214626,
+    "magnitude": 11.3,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "LP 816-60",
+    "x": 11.987158,
+    "y": -12.793575,
+    "z": -5.351528,
+    "distance": 18.330477,
+    "magnitude": 13.7,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "WISE J035000.32-565830.2",
+    "x": 5.414074,
+    "y": 8.498679,
+    "z": -15.502426,
+    "distance": 18.489591,
+    "magnitude": 39.61,
+    "color": "#ff4400"
+  },
+  {
+    "name": "2MASSI J1835379+325954",
+    "x": 2.409468,
+    "y": -15.373467,
+    "z": 10.103508,
+    "distance": 18.553434,
+    "magnitude": 18.84,
+    "color": "#ff9f45"
+  },
+  {
+    "name": "GJ 205",
+    "x": 2.305188,
+    "y": 18.422059,
+    "z": -1.196208,
+    "distance": 18.604222,
+    "magnitude": 9.14,
+    "color": "#ffc493"
+  },
+  {
+    "name": "2MASSI J0415195-093506",
+    "x": 8.093514,
+    "y": 16.475839,
+    "z": -3.099329,
+    "distance": 18.616232,
+    "magnitude": 32.12,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 229 B",
+    "x": -0.804753,
+    "y": 17.420118,
+    "z": -6.998529,
+    "distance": 18.790624,
+    "magnitude": 30.01,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 229 A",
+    "x": -0.804315,
+    "y": 17.419997,
+    "z": -6.998881,
+    "distance": 18.790624,
+    "magnitude": 9.81,
+    "color": "#ffc697"
+  },
+  {
+    "name": "Sigma Draconis",
+    "x": 2.564248,
+    "y": -6.012493,
+    "z": 17.62635,
+    "distance": 18.799299,
+    "magnitude": 5.84,
+    "color": "#ffebd9"
+  },
+  {
+    "name": "GJ 213",
+    "x": 1.431622,
+    "y": 18.3862,
+    "z": 4.082504,
+    "distance": 18.888323,
+    "magnitude": 13.67,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "HD 131976 Aa",
+    "x": -12.778864,
+    "y": -12.496766,
+    "z": -7.008776,
+    "distance": 19.198736,
+    "magnitude": 8.9,
+    "color": "#ffca9f"
+  },
+  {
+    "name": "GJ 570 D",
+    "x": -12.791768,
+    "y": -12.490612,
+    "z": -6.996194,
+    "distance": 19.198736,
+    "magnitude": 31.27,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GJ 570 A",
+    "x": -12.775442,
+    "y": -12.498236,
+    "z": -7.012392,
+    "distance": 19.198736,
+    "magnitude": 6.85,
+    "color": "#ffdec3"
+  },
+  {
+    "name": "HD 131976 Ab",
+    "x": -12.778864,
+    "y": -12.496766,
+    "z": -7.008776,
+    "distance": 19.198736,
+    "magnitude": 11.63,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "GJ 693",
+    "x": -0.60895,
+    "y": -10.351857,
+    "z": -16.168102,
+    "distance": 19.207792,
+    "magnitude": 11.93,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "GJ 754",
+    "x": 4.65937,
+    "y": -12.66099,
+    "z": -13.76279,
+    "distance": 19.272384,
+    "magnitude": 14.16,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "GJ 908",
+    "x": 19.236387,
+    "y": -0.904943,
+    "z": 0.806097,
+    "distance": 19.274525,
+    "magnitude": 10.09,
+    "color": "#ffc697"
+  },
+  {
+    "name": "GJ 752 A",
+    "x": 6.327567,
+    "y": -18.142102,
+    "z": 1.736084,
+    "distance": 19.292173,
+    "magnitude": 10.25,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "GJ 588",
+    "x": -8.718934,
+    "y": -11.590155,
+    "z": -12.732746,
+    "distance": 19.299594,
+    "magnitude": 10.47,
+    "color": "#ffbf8a"
+  },
+  {
+    "name": "GJ 752 B",
+    "x": 6.33487,
+    "y": -18.153134,
+    "z": 1.730949,
+    "distance": 19.304483,
+    "magnitude": 18.17,
+    "color": "#ffa24c"
+  },
+  {
+    "name": "Eta Cassiopeiae A",
+    "x": 10.055021,
+    "y": 2.189633,
+    "z": 16.349363,
+    "distance": 19.318375,
+    "magnitude": 4.62,
+    "color": "#fff7ef"
+  },
+  {
+    "name": "Eta Cassiopeiae B",
+    "x": 10.061105,
+    "y": 2.190215,
+    "z": 16.360913,
+    "distance": 19.331382,
+    "magnitude": 8.46,
+    "color": "#ffca9f"
+  },
+  {
+    "name": "GJ 663 B",
+    "x": -3.358473,
+    "y": -17.01626,
+    "z": -8.68848,
+    "distance": 19.399024,
+    "magnitude": 6.18,
+    "color": "#ffe9d7"
+  },
+  {
+    "name": "GJ 663 A",
+    "x": -3.361344,
+    "y": -17.029248,
+    "z": -8.694728,
+    "distance": 19.413712,
+    "magnitude": 6.18,
+    "color": "#ffe7d3"
+  },
+  {
+    "name": "GJ 664",
+    "x": -3.298593,
+    "y": -17.054469,
+    "z": -8.68,
+    "distance": 19.418497,
+    "magnitude": 7.39,
+    "color": "#ffdbbe"
+  },
+  {
+    "name": "HD 155876 B",
+    "x": -2.825115,
+    "y": -13.328824,
+    "z": 13.945371,
+    "distance": 19.496466,
+    "magnitude": 11.63,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "HD 155876 A",
+    "x": -2.825115,
+    "y": -13.328824,
+    "z": 13.945371,
+    "distance": 19.496466,
+    "magnitude": 11.63,
+    "color": "#ffbd85"
+  },
+  {
+    "name": "GJ 285",
+    "x": -8.59696,
+    "y": 17.497659,
+    "z": 1.209641,
+    "distance": 19.533024,
+    "magnitude": 13.05,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "WISEPA J154151.66-225025.2",
+    "x": -10.210211,
+    "y": -14.835801,
+    "z": -7.585598,
+    "distance": 19.542024,
+    "magnitude": 38.94,
+    "color": "#ff4400"
+  },
+  {
+    "name": "GQ Andromedae",
+    "x": 8.582706,
+    "y": -13.317884,
+    "z": -11.554076,
+    "distance": 19.609323,
+    "magnitude": 12.54,
+    "color": "#ffb87c"
+  },
+  {
+    "name": "GX Andromedae",
+    "x": 8.582706,
+    "y": -13.317884,
+    "z": -11.554076,
+    "distance": 19.609323,
+    "magnitude": 7.4,
+    "color": "#ffdbbe"
+  },
+  {
+    "name": "82 Eridani",
+    "x": 9.253058,
+    "y": 11.027499,
+    "z": -13.455135,
+    "distance": 19.704453,
+    "magnitude": 5.33,
+    "color": "#ffeee0"
+  },
+  {
+    "name": "QY Aur A",
+    "x": -4.645893,
+    "y": 14.728043,
+    "z": 12.297233,
+    "distance": 19.741365,
+    "magnitude": 13.91,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "QY Aur B",
+    "x": -4.645893,
+    "y": 14.728043,
+    "z": 12.297233,
+    "distance": 19.741365,
+    "magnitude": 13.91,
+    "color": "#ffb06c"
+  },
+  {
+    "name": "Delta Pavonis",
+    "x": 4.279407,
+    "y": -6.796887,
+    "z": -18.199589,
+    "distance": 19.893115,
+    "magnitude": 4.64,
+    "color": "#ffecdc"
+  },
+  {
+    "name": "SIMP J013656.57+093347.3",
+    "x": 17.942403,
+    "y": 8.079167,
+    "z": 3.31515,
+    "distance": 19.954773,
+    "magnitude": 27.33,
+    "color": "#ff4900"
+  },
+  {
+    "name": "Mercury",
+    "x": 0.000006121005,
+    "y": 0.0,
+    "z": 0.0,
+    "distance": 0.000006121005,
+    "magnitude": 36.0,
+    "color": "#b7b8b9"
+  },
+  {
+    "name": "Venus",
+    "x": 0.000011437692,
+    "y": 0.0,
+    "z": 0.0,
+    "distance": 0.000011437692,
+    "magnitude": 35.2,
+    "color": "#e7c27d"
+  },
+  {
+    "name": "Earth",
+    "x": 0.000015812507,
+    "y": 0.0,
+    "z": 0.0,
+    "distance": 0.000015812507,
+    "magnitude": 35.4,
+    "color": "#2f6cff"
+  },
+  {
+    "name": "Mars",
+    "x": 0.000024092922,
+    "y": 0.0,
+    "z": 0.0,
+    "distance": 0.000024092922,
+    "magnitude": 36.2,
+    "color": "#c1440e"
+  },
+  {
+    "name": "Jupiter",
+    "x": 0.000082278216,
+    "y": 0.0,
+    "z": 0.0,
+    "distance": 0.000082278216,
+    "magnitude": 33.5,
+    "color": "#d8ca9d"
+  },
+  {
+    "name": "Saturn",
+    "x": 0.000150804995,
+    "y": 0.0,
+    "z": 0.0,
+    "distance": 0.000150804995,
+    "magnitude": 34.0,
+    "color": "#ead6b8"
+  },
+  {
+    "name": "Uranus",
+    "x": 0.000303462003,
+    "y": 0.0,
+    "z": 0.0,
+    "distance": 0.000303462003,
+    "magnitude": 34.7,
+    "color": "#bfefff"
+  },
+  {
+    "name": "Neptune",
+    "x": 0.000475465708,
+    "y": 0.0,
+    "z": 0.0,
+    "distance": 0.000475465708,
+    "magnitude": 34.8,
+    "color": "#4b70dd"
+  }
 ]
